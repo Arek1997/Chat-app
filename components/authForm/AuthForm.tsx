@@ -10,7 +10,7 @@ const AuthForm = ({ title }: Props) => {
 	const isLogInRoute = pathname.slice(1) === 'login';
 
 	return (
-		<section className='fade-in-from-bottom fixed top-1/2 left-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-md bg-slate-300/80 p-5'>
+		<section className='fade-in-from-bottom w-[280px] rounded-md bg-slate-300/80 p-5 sm:w-[310px]'>
 			<h2 className='ml-[50%] inline-block -translate-x-1/2 border-b-2 border-indigo-500 px-2 text-center text-xl font-semibold'>
 				{title}
 			</h2>
@@ -23,7 +23,7 @@ const AuthForm = ({ title }: Props) => {
 						type='email'
 						id='user-email'
 						placeholder='mail@mail.com'
-						className='rounded-md px-4 py-2'
+						className='rounded-md px-4 py-2 outline-indigo-500'
 						required
 					/>
 					<p className='error-msg basis-full text-center font-semibold text-red-600'>
@@ -39,7 +39,7 @@ const AuthForm = ({ title }: Props) => {
 						type='password'
 						id='user-password'
 						placeholder='********'
-						className='rounded-md px-4 py-2'
+						className='rounded-md px-4 py-2 outline-indigo-500'
 						required
 					/>
 					<p className='error-msg basis-full text-center font-semibold text-red-600'>
@@ -47,11 +47,11 @@ const AuthForm = ({ title }: Props) => {
 					</p>
 				</div>
 
-				<button className='ml-auto mt-4 block rounded-md bg-slate-200 px-4 py-2 transition-colors duration-300 hover:bg-slate-50 focus:scale-95'>
+				<button className='ml-auto mt-4 block rounded-md bg-slate-200 px-4 py-2 outline-indigo-500 transition-colors duration-300 hover:bg-slate-50 focus:scale-95'>
 					{title}
 				</button>
 			</form>
-			<p className='inline-block border-b-2 border-indigo-500'>
+			<p className='inline-block border-b-2 border-indigo-500 px-2'>
 				{isLogInRoute ? 'Have not account?' : 'Have account?'}
 				<Link
 					className='pl-3 transition-opacity hover:opacity-80'
