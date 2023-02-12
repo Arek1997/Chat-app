@@ -15,7 +15,26 @@ const AuthForm = ({ title }: Props) => {
 				{title}
 			</h2>
 			<form className='py-6'>
-				<div className='mb-4 flex flex-col   text-center'>
+				{!isLogInRoute && (
+					<div className='mb-4 flex flex-col text-center'>
+						<label htmlFor='user-name' className='mb-2'>
+							Full Name
+						</label>
+						<input
+							type='text'
+							id='user-name'
+							placeholder='Adam Małysz'
+							className='rounded-md px-4 py-2 outline-indigo-500'
+							required
+							minLength={3}
+						/>
+						<p className='error-msg basis-full text-center font-semibold text-red-600'>
+							{/* Name is too short. Min 3 signs */}
+						</p>
+					</div>
+				)}
+
+				<div className='mb-4 flex flex-col text-center'>
 					<label htmlFor='user-email' className='mb-2'>
 						Email
 					</label>
@@ -31,7 +50,7 @@ const AuthForm = ({ title }: Props) => {
 					</p>
 				</div>
 
-				<div className='mb-4 flex flex-col   text-center'>
+				<div className='mb-4 flex flex-col text-center'>
 					<label htmlFor='user-password' className='mb-2'>
 						Password
 					</label>
