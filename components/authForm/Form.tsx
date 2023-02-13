@@ -1,5 +1,18 @@
-import { useRef } from 'react';
+import { registerUser } from '@/helpers';
 import { signIn } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+interface Inputs {
+	name?: string;
+	email: string;
+	password: string;
+}
+
+interface Response {
+	status: 'success' | 'error';
+	message: string;
+}
 
 interface Props {
 	title: string;
@@ -7,34 +20,77 @@ interface Props {
 }
 
 const Form = ({ title, isLogInRoute }: Props) => {
-	const inputNameRef = useRef<HTMLInputElement>(null);
-	const inputEmailRef = useRef<HTMLInputElement>(null);
-	const inputPasswordRef = useRef<HTMLInputElement>(null);
+	const [responseMessage, setResponseMessage] = useState<Response | null>();
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors, isSubmitSuccessful, isSubmitting },
+	} = useForm<Inputs>({
+		mode: 'onTouched',
+		defaultValues: {
+			name: '',
+			email: '',
+			password: '',
+		},
+	});
 
-	const onSubmitHandler = async (e: React.FormEvent) => {
-		e.preventDefault();
-
-		const name = inputNameRef.current?.value.trim();
-		const email = inputEmailRef.current?.value.trim();
-		const password = inputPasswordRef.current?.value.trim();
-
-		console.log(name, email, password);
-
+	const onSubmitHandler: SubmitHandler<Inputs> = async ({
+		name,
+		email,
+		password,
+	}) => {
 		if (isLogInRoute) {
 			signIn('credentials', { email, password, callbackUrl: '/' });
 		} else {
-			const res = await fetch('/api/auth/register', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password }),
-			});
-			const data = await res.json();
-			console.log(data);
+			try {
+				const { res, data } = await registerUser('/api/auth/register', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email, password }),
+				});
+
+				if (!res.ok) {
+					const errorMessage = data.errorMessage;
+					throw new Error(errorMessage);
+				}
+
+				setResponseMessage({ status: 'success', message: 'Account created.' });
+			} catch (err: any) {
+				console.log(err.message);
+				setResponseMessage({ status: 'error', message: err.message });
+			}
 		}
 	};
 
+	useEffect(() => {
+		reset({
+			name: '',
+			email: '',
+			password: '',
+		});
+
+		if (responseMessage?.status === 'success') {
+			const timeout = setTimeout(() => {
+				setResponseMessage(null);
+			}, 2000);
+
+			return () => clearTimeout(timeout);
+		}
+	}, [isSubmitSuccessful]);
+
+	const responseColor =
+		responseMessage?.status === 'success' ? 'text-green-700' : 'text-red-700';
+
 	return (
-		<form className='py-6' onSubmit={onSubmitHandler}>
+		<form className='py-6' onSubmit={handleSubmit(onSubmitHandler)}>
+			{responseMessage && (
+				<span
+					className={`mb-6 block text-center font-semibold ${responseColor}`}
+				>
+					{responseMessage?.message}
+				</span>
+			)}
 			{!isLogInRoute && (
 				<div className='mb-4 flex flex-col text-center'>
 					<label htmlFor='user-name' className='mb-2'>
@@ -45,12 +101,17 @@ const Form = ({ title, isLogInRoute }: Props) => {
 						id='user-name'
 						placeholder='Adam Małysz'
 						className='rounded-md px-4 py-2 outline-indigo-500'
-						required
-						minLength={3}
-						ref={inputNameRef}
+						{...register('name', {
+							required: 'Name is required',
+							minLength: 3,
+							pattern: {
+								message: 'Name have to be at least 3 characters',
+								value: /[A-Za-z]{3}/,
+							},
+						})}
 					/>
 					<p className='error-msg basis-full text-center font-semibold text-red-600'>
-						{/* Name is too short. Min 3 signs */}
+						{errors.name?.message}
 					</p>
 				</div>
 			)}
@@ -64,11 +125,16 @@ const Form = ({ title, isLogInRoute }: Props) => {
 					id='user-email'
 					placeholder='mail@mail.com'
 					className='rounded-md px-4 py-2 outline-indigo-500'
-					required
-					ref={inputEmailRef}
+					{...register('email', {
+						required: 'Email is required',
+						pattern: {
+							message: 'Email is not correct',
+							value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+						},
+					})}
 				/>
 				<p className='error-msg basis-full text-center font-semibold text-red-600'>
-					{/* Email is not correct */}
+					{errors.email?.message}
 				</p>
 			</div>
 
@@ -81,16 +147,23 @@ const Form = ({ title, isLogInRoute }: Props) => {
 					id='user-password'
 					placeholder='********'
 					className='rounded-md px-4 py-2 outline-indigo-500'
-					required
-					ref={inputPasswordRef}
+					{...register('password', {
+						required: 'Password is required',
+						pattern: {
+							message:
+								'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
+							value:
+								/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm,
+						},
+					})}
 				/>
 				<p className='error-msg basis-full text-center font-semibold text-red-600'>
-					{/* Password is not correct */}
+					{errors.password?.message}
 				</p>
 			</div>
 
 			<button className='ml-auto mt-4 block rounded-md bg-slate-200 px-4 py-2 outline-indigo-500 transition-colors duration-300 hover:bg-slate-50 focus:scale-95'>
-				{title}
+				{isSubmitting ? 'Processing...' : title}
 			</button>
 		</form>
 	);
