@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
 
 				console.log('Log from ...nextauth', credentials);
 
-				if (email === 'test@test.com' && password === '123456') {
+				if (email === 'test@test.com' && password === 'Test!2345') {
 					return { email };
 				} else {
 					return null;

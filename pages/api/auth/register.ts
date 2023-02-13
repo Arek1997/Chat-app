@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { registerUser } from '@/helpers';
+import { fetchData } from '@/helpers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
 	const { email, password } = req.body;
 
 	try {
-		const { res: fetchRes, data } = await registerUser(
+		const { res: fetchRes, data } = await fetchData(
 			`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`,
 			{
 				method: 'POST',

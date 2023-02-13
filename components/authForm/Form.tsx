@@ -1,5 +1,6 @@
-import { registerUser } from '@/helpers';
+import { fetchData } from '@/helpers';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
+	const router = useRouter();
 	const [responseMessage, setResponseMessage] = useState<Response | null>();
 	const {
 		register,
@@ -42,10 +44,24 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 		password,
 	}) => {
 		if (isLogInRoute) {
-			signIn('credentials', { email, password, callbackUrl: '/' });
+			try {
+				const result = await signIn('credentials', {
+					redirect: false,
+					email,
+					password,
+				});
+
+				if (!result?.ok) {
+					throw new Error('Email or password are incorrect.');
+				}
+
+				router.push('/');
+			} catch (err: any) {
+				setResponseMessage({ status: 'error', message: err.message });
+			}
 		} else {
 			try {
-				const { res, data } = await registerUser('/api/auth/register', {
+				const { res, data } = await fetchData('/api/auth/register', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ email, password }),
