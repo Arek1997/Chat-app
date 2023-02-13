@@ -17,9 +17,10 @@ interface Response {
 interface Props {
 	title: string;
 	isLogInRoute: boolean;
+	setIsLoading: (value: boolean) => void;
 }
 
-const Form = ({ title, isLogInRoute }: Props) => {
+const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 	const [responseMessage, setResponseMessage] = useState<Response | null>();
 	const {
 		register,
@@ -62,6 +63,10 @@ const Form = ({ title, isLogInRoute }: Props) => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		setIsLoading(isSubmitting);
+	}, [isSubmitting]);
 
 	useEffect(() => {
 		reset({
