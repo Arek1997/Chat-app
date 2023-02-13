@@ -9,7 +9,7 @@ const Home = () => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const session = await getServerSession(context.req, context.res, authOptions);
 
-	console.log(session);
+	console.log('Log from server side main page', session);
 
 	if (!session) {
 		return {
@@ -21,9 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	return {
-		props: {
-			session,
-		},
+		props: {},
 	};
 };
 

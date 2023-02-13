@@ -4,7 +4,7 @@ export default function Document() {
 	return (
 		<Html lang='en'>
 			<Head />
-			<body className='animated-background grid h-screen place-content-center overflow-x-hidden'>
+			<body className='animated-background grid min-h-screen place-content-center overflow-x-hidden'>
 				<Main />
 				<NextScript />
 			</body>
