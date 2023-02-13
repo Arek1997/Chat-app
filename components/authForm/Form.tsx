@@ -52,7 +52,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 				});
 
 				if (!result?.ok) {
-					throw new Error('Email or password are incorrect.');
+					throw new Error(result?.error);
 				}
 
 				router.push('/');
