@@ -1,3 +1,11 @@
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	UserCredential,
+} from 'firebase/auth';
+import { app } from '../firebase.config';
+
 export const fetchData = async (url: string, options?: object) => {
 	const res = await fetch(url, options);
 	const data = await res.json();
@@ -14,4 +22,24 @@ export const validPassword = (password: string) => {
 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm
 	).test(password);
 	return isValid;
+};
+
+export const createNewUser = async (email: string, password: string) => {
+	const auth = getAuth(app);
+	const newUser: UserCredential = await createUserWithEmailAndPassword(
+		auth,
+		email,
+		password
+	);
+	return newUser;
+};
+
+export const logUser = async (email: string, password: string) => {
+	const auth = getAuth(app);
+	const loggedUser: UserCredential = await signInWithEmailAndPassword(
+		auth,
+		email,
+		password
+	);
+	return loggedUser;
 };

@@ -1,4 +1,4 @@
-import { fetchData } from '@/helpers';
+import { fetchData, logUser } from '@/helpers';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -12,19 +12,12 @@ export const authOptions: NextAuthOptions = {
 					password: string;
 				};
 
-				const { res, data } = await fetchData(
-					`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
-					{
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ email, password }),
-					}
-				);
-
-				if (!res.ok) {
+				try {
+					const { user } = await logUser(email, password);
+					return { email: user.email };
+				} catch (err) {
+					console.log(err);
 					throw new Error('Email or password are incorrect.');
-				} else {
-					return { email };
 				}
 			},
 		}),

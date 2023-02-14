@@ -1,8 +1,8 @@
-import { getApps, getApp, initializeApp } from 'firebase/app';
+import { getApps, getApp, initializeApp, FirebaseOptions } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
 	appId: process.env.FIREBASE_APP_ID,
 	apiKey: process.env.FIREBASE_API_KEY,
 	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -12,7 +12,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+// const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 export { app, db };

@@ -68,7 +68,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 				});
 
 				if (!res.ok) {
-					const errorMessage = data.errorMessage;
+					const { errorMessage } = data;
 					throw new Error(errorMessage);
 				}
 
