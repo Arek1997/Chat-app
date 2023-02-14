@@ -1,4 +1,4 @@
-import { fetchData, logUser } from '@/helpers';
+import { logUser } from '@/helpers';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 

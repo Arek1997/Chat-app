@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createNewUser, fetchData, validEmail, validPassword } from '@/helpers';
+import { createNewUser, validEmail, validPassword } from '@/helpers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
