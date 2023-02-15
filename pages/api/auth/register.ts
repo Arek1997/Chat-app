@@ -1,6 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createNewUser, validEmail, validPassword } from '@/helpers';
+import {
+	createNewUser,
+	updateUser,
+	validEmail,
+	validPassword,
+} from '@/helpers';
 import type { NextApiRequest, NextApiResponse } from 'next';
+
+interface reqBody {
+	email: string;
+	password: string;
+	name: string;
+}
 
 export default async function handler(
 	req: NextApiRequest,
@@ -8,7 +19,14 @@ export default async function handler(
 ) {
 	if (req.method !== 'POST') return;
 
-	const { email, password } = req.body;
+	const { email, password, name }: reqBody = req.body;
+
+	if (name.trim().length < 3) {
+		return res.status(403).json({
+			status: 'error',
+			errorMessage: `Name have to be at least 3 characters`,
+		});
+	}
 
 	if (!validEmail(email)) {
 		return res.status(403).json({
@@ -26,6 +44,8 @@ export default async function handler(
 
 	try {
 		const { user } = await createNewUser(email, password);
+
+		await updateUser(name);
 
 		console.log('Success');
 		res.status(200).json({

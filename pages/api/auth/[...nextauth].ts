@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
 
 				try {
 					const { user } = await logUser(email, password);
-					return { email: user.email };
+					return { email: user.email, name: user.displayName };
 				} catch (err) {
 					console.log(err);
 					throw new Error('Email or password are incorrect.');

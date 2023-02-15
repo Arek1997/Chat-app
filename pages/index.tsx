@@ -2,8 +2,16 @@ import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 
-const Home = () => {
-	return <h1 className='text-center text-2xl text-slate-50'>The Home Page</h1>;
+interface Props {
+	name: string | undefined;
+}
+
+const Home = ({ name }: Props) => {
+	return (
+		<h1 className='text-center text-2xl text-slate-50'>{`Hello ${
+			name ? name : 'user'
+		}!`}</h1>
+	);
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -21,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	return {
-		props: {},
+		props: { name: session.user?.name },
 	};
 };
 

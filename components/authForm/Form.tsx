@@ -64,7 +64,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 				const { res, data } = await fetchData('/api/auth/register', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ email, password }),
+					body: JSON.stringify({ email, password, name }),
 				});
 
 				if (!res.ok) {
