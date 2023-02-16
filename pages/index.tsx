@@ -1,16 +1,13 @@
+import ChatApp from '@/components/chat/ChatApp';
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 
-interface Props {
-	name: string | undefined;
-}
-
-const Home = ({ name }: Props) => {
+const Home = () => {
 	return (
-		<h1 className='text-center text-2xl text-slate-50'>{`Hello ${
-			name ? name : 'user'
-		}!`}</h1>
+		<>
+			<ChatApp />
+		</>
 	);
 };
 
@@ -29,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	return {
-		props: { name: session.user?.name },
+		props: {},
 	};
 };
 

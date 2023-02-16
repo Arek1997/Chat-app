@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	plugins: [require('prettier-plugin-tailwindcss')],
+	plugins: [
+		require('prettier-plugin-tailwindcss'),
+		require('tailwind-scrollbar'),
+	],
 	content: [
 		'./app/**/*.{js,ts,jsx,tsx}',
 		'./pages/**/*.{js,ts,jsx,tsx}',
