@@ -4,6 +4,7 @@ import {
 	signInWithEmailAndPassword,
 	updateProfile,
 	UserCredential,
+	signOut,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
 
@@ -51,5 +52,11 @@ export const updateUser = async (name: string, photo?: string) => {
 		displayName: name,
 		photoURL: photo,
 	});
+	return user;
+};
+
+export const signOutUser = async () => {
+	const auth = getAuth(app);
+	const user = await signOut(auth);
 	return user;
 };

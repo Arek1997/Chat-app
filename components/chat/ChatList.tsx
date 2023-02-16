@@ -1,10 +1,20 @@
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
+import { signOutUser } from '@/helpers';
 
 const ChatList = () => {
 	const { data } = useSession();
 	const user = data?.user;
 	const image = user?.image || '/person-icon.png';
+
+	const logOutUserHandler = async () => {
+		try {
+			await signOutUser();
+			await signOut();
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className='flex max-w-[350px] grow flex-col border-r-2'>
@@ -78,7 +88,10 @@ const ChatList = () => {
 				<button className='rounded-full bg-teal-600 py-2 px-4 transition-colors hover:bg-teal-500'>
 					+ New Chat
 				</button>
-				<button className='rounded-full bg-teal-600 px-4 py-2 text-sm transition-colors hover:bg-teal-500'>
+				<button
+					className='rounded-full bg-teal-600 px-4 py-2 text-sm transition-colors hover:bg-teal-500'
+					onClick={logOutUserHandler}
+				>
 					Log out
 				</button>
 			</div>
