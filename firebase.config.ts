@@ -1,4 +1,5 @@
-import { getApps, getApp, initializeApp, FirebaseOptions } from 'firebase/app';
+import { initializeApp, FirebaseOptions } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -12,9 +13,10 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 // Initialize Firebase
-// const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { app, db };
+export { app, auth, db };

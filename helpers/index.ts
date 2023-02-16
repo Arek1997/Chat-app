@@ -1,12 +1,12 @@
 import {
-	getAuth,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	updateProfile,
 	UserCredential,
 	signOut,
 } from 'firebase/auth';
-import { app } from '../firebase.config';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase.config';
 
 export const fetchData = async (url: string, options?: object) => {
 	const res = await fetch(url, options);
@@ -27,7 +27,6 @@ export const validPassword = (password: string) => {
 };
 
 export const createNewUser = async (email: string, password: string) => {
-	const auth = getAuth(app);
 	const newUser: UserCredential = await createUserWithEmailAndPassword(
 		auth,
 		email,
@@ -37,7 +36,6 @@ export const createNewUser = async (email: string, password: string) => {
 };
 
 export const logUser = async (email: string, password: string) => {
-	const auth = getAuth(app);
 	const loggedUser: UserCredential = await signInWithEmailAndPassword(
 		auth,
 		email,
@@ -47,7 +45,6 @@ export const logUser = async (email: string, password: string) => {
 };
 
 export const updateUser = async (name: string, photo?: string) => {
-	const auth = getAuth(app);
 	const user = await updateProfile(auth.currentUser!, {
 		displayName: name,
 		photoURL: photo,
@@ -56,7 +53,16 @@ export const updateUser = async (name: string, photo?: string) => {
 };
 
 export const signOutUser = async () => {
-	const auth = getAuth(app);
 	const user = await signOut(auth);
 	return user;
+};
+
+export const saveUserInFireStoreDataBase = async (
+	id: string,
+	userData: { name: string; email: string }
+) => {
+	await setDoc(
+		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_NAME!, id),
+		userData
+	);
 };

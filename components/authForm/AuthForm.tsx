@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -15,6 +16,9 @@ const AuthForm = ({ title }: Props) => {
 
 	return (
 		<>
+			<Head>
+				<title>{isLogInRoute ? 'Login' : 'Register'}</title>
+			</Head>
 			<section className='fade-in-from-bottom relative w-[280px] overflow-hidden rounded-md bg-slate-300/80 p-5 sm:w-[310px]'>
 				{isLoading && <LoadingSpinner />}
 				<h2 className='ml-[50%] inline-block -translate-x-1/2 border-b-2 border-indigo-500 px-2 text-center text-xl font-semibold'>

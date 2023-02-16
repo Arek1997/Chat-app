@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import {
 	createNewUser,
+	saveUserInFireStoreDataBase,
 	updateUser,
 	validEmail,
 	validPassword,
@@ -46,6 +47,11 @@ export default async function handler(
 		const { user } = await createNewUser(email, password);
 
 		await updateUser(name);
+
+		await saveUserInFireStoreDataBase(user.uid, {
+			email: user.email!,
+			name: user.displayName!,
+		});
 
 		console.log('Success');
 		res.status(200).json({
