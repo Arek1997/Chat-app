@@ -49,7 +49,8 @@ export default async function handler(
 		await updateUser(name);
 
 		await saveUserInFireStoreDataBase(user.uid, {
-			email: user.email!,
+			id: user.uid,
+			email,
 			name: user.displayName!,
 		});
 

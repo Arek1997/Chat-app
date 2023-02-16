@@ -59,7 +59,7 @@ export const signOutUser = async () => {
 
 export const saveUserInFireStoreDataBase = async (
 	id: string,
-	userData: { name: string; email: string }
+	userData: { id: string; name: string; email: string }
 ) => {
 	await setDoc(
 		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_NAME!, id),
