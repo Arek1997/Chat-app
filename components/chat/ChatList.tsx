@@ -35,8 +35,8 @@ const ChatList = () => {
 	}, [user?.uid]);
 
 	return (
-		<div className='flex max-w-[350px] grow flex-col'>
-			<div className='flex justify-between bg-cyan-900 p-4'>
+		<div className='flex min-w-[350px] max-w-[350px] grow flex-col'>
+			<div className='flex justify-between p-4'>
 				<h1 className='text-xl font-semibold tracking-wider'>My Chats</h1>
 				<div className='details flex items-center gap-x-2'>
 					<div className='image'>
@@ -102,7 +102,7 @@ const ChatList = () => {
 				</ul>
 			</div>
 
-			<div className='flex items-end justify-between bg-cyan-900 p-4'>
+			<div className='flex items-end justify-between p-4'>
 				<button className='rounded-full bg-teal-600 py-2 px-4 transition-colors hover:bg-teal-500'>
 					+ New Chat
 				</button>

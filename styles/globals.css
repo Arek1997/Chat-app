@@ -38,3 +38,18 @@
 	background-color: rgb(208, 230, 228);
 	border-radius: 50px;
 }
+
+.textAreaMessage::-webkit-scrollbar {
+	display: none;
+}
+
+.message p {
+	word-break: break-word;
+}
+
+.message-owner {
+	align-self: flex-end;
+}
+.message-owner article {
+	flex-direction: row-reverse;
+}
