@@ -5,7 +5,6 @@ module.exports = {
 		require('tailwind-scrollbar'),
 	],
 	content: [
-		'./app/**/*.{js,ts,jsx,tsx}',
 		'./pages/**/*.{js,ts,jsx,tsx}',
 		'./components/**/*.{js,ts,jsx,tsx}',
 	],

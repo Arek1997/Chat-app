@@ -3,10 +3,15 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
+	secret: process.env.NEXTAUTH_SECRET,
+	session: {
+		maxAge: 24 * 60 * 60,
+	},
+
 	// Configure one or more authentication providers
 	providers: [
 		CredentialsProvider({
-			async authorize(credentials, req) {
+			async authorize(credentials) {
 				const { email, password } = credentials as {
 					email: string;
 					password: string;
@@ -14,7 +19,12 @@ export const authOptions: NextAuthOptions = {
 
 				try {
 					const { user } = await logUser(email, password);
-					return { email: user.email, name: user.displayName };
+
+					return {
+						email: user.email,
+						name: user.displayName,
+						uid: user.uid,
+					};
 				} catch (err) {
 					console.log(err);
 					throw new Error('Email or password are incorrect.');
@@ -22,5 +32,20 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
+
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.uid = user.uid;
+			}
+			return token;
+		},
+		async session({ session, token }) {
+			if (token) {
+				session.user.uid = token.uid;
+			}
+			return session;
+		},
+	},
 };
 export default NextAuth(authOptions);

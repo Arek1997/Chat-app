@@ -24,3 +24,17 @@
 		transform: translateY(0);
 	}
 }
+
+.customScroll::-webkit-scrollbar {
+	width: 10px;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+	background-color: rgb(33, 194, 180);
+	border-radius: 50px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+	background-color: rgb(208, 230, 228);
+	border-radius: 50px;
+}

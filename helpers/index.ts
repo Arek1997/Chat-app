@@ -52,7 +52,7 @@ export const updateUser = async (name: string, photo?: string) => {
 	return user;
 };
 
-export const signOutUser = async () => {
+export const logOutUser = async () => {
 	const user = await signOut(auth);
 	return user;
 };
