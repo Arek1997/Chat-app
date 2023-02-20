@@ -34,7 +34,7 @@ const SearchUser = () => {
 		content = 'Search...';
 	}
 
-	if (!result || (result?.length === 0 && !loading)) {
+	if ((!result && !loading) || (result?.length === 0 && !loading)) {
 		content = 'User not found.';
 	}
 
@@ -53,8 +53,8 @@ const SearchUser = () => {
 	console.log(result);
 
 	return (
-		<div className='search border-b-[1px] p-4'>
-			<div className='search-input relative'>
+		<div className='search border-b-[1px] px-2 pt-4 pb-2'>
+			<div className='search-input relative px-2'>
 				<label htmlFor='search-user'></label>
 				<input
 					type='text'

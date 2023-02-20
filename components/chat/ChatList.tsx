@@ -37,7 +37,7 @@ const ChatList = () => {
 
 			<SearchUser />
 
-			<div className='customScroll grow overflow-y-auto px-2'>
+			<div className='customScroll grow overflow-y-auto px-2 pt-2'>
 				<ul>
 					<li>
 						<ChatItem userName='Dominic' />
