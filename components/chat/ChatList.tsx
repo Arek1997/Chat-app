@@ -1,10 +1,9 @@
 import { signOut, useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
 import { logOutUser } from '@/helpers';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '@/firebase.config';
-import { useEffect } from 'react';
+
 import Button from '../button/Button';
+import SearchUser from './searchUser/SearchUser';
 
 const ChatList = () => {
 	const { data } = useSession();
@@ -19,21 +18,6 @@ const ChatList = () => {
 			console.log(err);
 		}
 	};
-
-	useEffect(() => {
-		if (!user?.uid!) return;
-
-		const unsub = onSnapshot(
-			doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_NAME!, user?.uid!),
-			(doc) => {
-				console.log('Current data: ', doc.data());
-			}
-		);
-
-		return () => {
-			unsub();
-		};
-	}, [user?.uid]);
 
 	return (
 		<div className='flex min-w-[350px] max-w-[350px] grow flex-col'>
@@ -50,15 +34,21 @@ const ChatList = () => {
 					<span className='max-w-[150px] truncate'>{user?.name || 'User'}</span>
 				</div>
 			</div>
+
+			<SearchUser />
+
 			<div className='customScroll grow overflow-y-auto px-2'>
 				<ul>
-					<ChatItem />
+					<li>
+						<ChatItem userName='Dominic' />
+					</li>
 
-					<ChatItem />
-
-					<ChatItem />
-
-					<ChatItem />
+					<li>
+						<ChatItem
+							userName='Max'
+							lastMessage='Some last loooong message Some last loooong message Some last loooong message'
+						/>
+					</li>
 				</ul>
 			</div>
 

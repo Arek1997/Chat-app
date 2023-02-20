@@ -5,7 +5,7 @@ import {
 	UserCredential,
 	signOut,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 
 export const fetchData = async (url: string, options?: object) => {
@@ -57,12 +57,32 @@ export const logOutUser = async () => {
 	return user;
 };
 
-export const saveUserInFireStoreDataBase = async (
+export const saveUserInFireStoreUsersColl = async (
 	id: string,
 	userData: { id: string; name: string; email: string }
 ) => {
 	await setDoc(
-		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_NAME!, id),
+		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USERS!, id),
 		userData
 	);
+
+	await setDoc(
+		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!, id),
+		{}
+	);
+};
+
+export const findUserByUserName = async (userName: string) => {
+	const availableUsers: any = [];
+
+	const querySnapshot = await getDocs(
+		collection(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USERS!)
+	);
+	querySnapshot.forEach((doc) => availableUsers.push(doc.data()));
+
+	const user = availableUsers.find((user: any) =>
+		user.name.toLocaleLowerCase().includes(userName.trim().toLocaleLowerCase())
+	);
+
+	return user;
 };

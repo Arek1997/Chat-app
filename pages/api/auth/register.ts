@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import {
 	createNewUser,
-	saveUserInFireStoreDataBase,
+	saveUserInFireStoreUsersColl,
 	updateUser,
 	validEmail,
 	validPassword,
@@ -48,7 +48,7 @@ export default async function handler(
 
 		await updateUser(name);
 
-		await saveUserInFireStoreDataBase(user.uid, {
+		await saveUserInFireStoreUsersColl(user.uid, {
 			id: user.uid,
 			email,
 			name: user.displayName!,
