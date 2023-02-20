@@ -80,7 +80,7 @@ export const findUserByUserName = async (userName: string) => {
 	);
 	querySnapshot.forEach((doc) => availableUsers.push(doc.data()));
 
-	const user = availableUsers.find((user: any) =>
+	const user = availableUsers.filter((user: any) =>
 		user.name.toLocaleLowerCase().includes(userName.trim().toLocaleLowerCase())
 	);
 

@@ -14,14 +14,12 @@ interface UserResult {
 const SearchUser = () => {
 	const [searchUser, setSearchUser] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [result, setResult] = useState<UserResult | undefined>();
+	const [result, setResult] = useState<UserResult[] | undefined>();
 
 	const searchUserHandler = async () => {
 		const user = await findUserByUserName(searchUser);
 		setResult(user);
 		setLoading(false);
-
-		console.log(user);
 	};
 
 	useEffect(() => {
@@ -36,13 +34,23 @@ const SearchUser = () => {
 		content = 'Search...';
 	}
 
-	if (!result && !loading) {
+	if (!result || (result?.length === 0 && !loading)) {
 		content = 'User not found.';
 	}
 
-	if (result && !loading) {
-		content = <ChatItem userName={result.name} userImage={result.image} />;
+	if (result && result?.length > 0 && !loading) {
+		content = (
+			<ul>
+				{result.map((result) => (
+					<li key={result.id}>
+						<ChatItem userName={result.name} userImage={result.image} />
+					</li>
+				))}
+			</ul>
+		);
 	}
+
+	console.log(result);
 
 	return (
 		<div className='search border-b-[1px] p-4'>
