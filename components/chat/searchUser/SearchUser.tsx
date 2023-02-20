@@ -79,7 +79,9 @@ const SearchUser = () => {
 				)}
 			</div>
 			{searchUser.trim().length > 0 && (
-				<div className='result mt-4'>{content}</div>
+				<div className='result customScroll mt-4 max-h-[150px] overflow-y-auto'>
+					{content}
+				</div>
 			)}
 		</div>
 	);
