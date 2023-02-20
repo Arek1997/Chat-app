@@ -1,11 +1,13 @@
+import Button from '../button/Button';
+
 const Chat = () => {
 	return (
 		<div className='flex grow flex-col text-center'>
 			<div className='p-4'>
 				<h2 className='text-xl font-semibold'>User Name</h2>
 			</div>
-			<div className='customScroll grow overflow-y-auto px-4'>
-				<ul className='customScroll flex flex-col gap-y-4 overflow-y-auto'>
+			<div className='customScroll mr-4 grow overflow-y-auto px-4'>
+				<ul className='customScroll flex flex-col gap-y-4'>
 					<li className='message max-w-[80%]'>
 						<article className='flex items-end gap-x-3 '>
 							<img
@@ -200,9 +202,10 @@ const Chat = () => {
 						</label>
 						<input type='file' name='files' id='files' className='hidden' />
 					</div>
-					<button className='rounded-full bg-teal-600 p-3 transition-opacity hover:opacity-80'>
+
+					<Button style='p-3 transition-opacity hover:opacity-80'>
 						<img src='/sendIcon.png' alt='sendIcon' className='h-6 w-6' />
-					</button>
+					</Button>
 				</form>
 			</div>
 		</div>

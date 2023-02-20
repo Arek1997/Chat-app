@@ -4,6 +4,7 @@ import { logOutUser } from '@/helpers';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase.config';
 import { useEffect } from 'react';
+import Button from '../button/Button';
 
 const ChatList = () => {
 	const { data } = useSession();
@@ -51,67 +52,27 @@ const ChatList = () => {
 			</div>
 			<div className='customScroll grow overflow-y-auto px-2'>
 				<ul>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
-					<li>
-						<ChatItem />
-					</li>
+					<ChatItem />
+
+					<ChatItem />
+
+					<ChatItem />
+
+					<ChatItem />
 				</ul>
 			</div>
 
 			<div className='flex items-end justify-between p-4'>
-				<button className='rounded-full bg-teal-600 py-2 px-4 transition-colors hover:bg-teal-500'>
-					+ New Chat
-				</button>
-				<button
-					className='rounded-full bg-teal-600 px-4 py-2 text-sm transition-colors hover:bg-teal-500'
-					onClick={logOutUserHandler}
-				>
-					Log out
-				</button>
+				<Button
+					text='+ New Chat'
+					style='px-4 py-2 transition-colors hover:bg-teal-500'
+				/>
+
+				<Button
+					text='Log out'
+					style='px-4 py-2 text-sm transition-colors hover:bg-teal-500'
+					onClickHandler={logOutUserHandler}
+				/>
 			</div>
 		</div>
 	);
