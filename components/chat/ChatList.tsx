@@ -1,11 +1,16 @@
 import { signOut, useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
-import { logOutUser } from '@/helpers';
+import { getRealTimeDataFromCollection, logOutUser } from '@/helpers';
 
 import Button from '../button/Button';
 import SearchUser from './searchUser/SearchUser';
+import { useEffect, useState } from 'react';
+
+let content: JSX.Element;
 
 const ChatList = () => {
+	const [chats, setChats] = useState<{ id: string; name: string }[]>();
+
 	const { data } = useSession();
 	const user = data?.user;
 	const image = user?.image || '/person-icon.png';
@@ -18,6 +23,47 @@ const ChatList = () => {
 			console.log(err);
 		}
 	};
+
+	const transformData = (data: any) => {
+		if (!data.activeChats) return;
+
+		const arr = [];
+
+		for (const key in data.activeChats) {
+			arr.push({
+				id: data.activeChats[key].userData.id as string,
+				name: data.activeChats[key].userData.name as string,
+			});
+		}
+
+		setChats(arr);
+	};
+
+	useEffect(() => {
+		if (!user?.uid) return;
+
+		const unsub = getRealTimeDataFromCollection(
+			process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
+			user.uid,
+			transformData
+		);
+
+		return () => {
+			unsub();
+		};
+	}, [user?.uid]);
+
+	if (chats) {
+		content = (
+			<ul>
+				{chats.map((chat) => (
+					<li key={chat.id}>
+						<ChatItem userName={chat.name} id={chat.id} />
+					</li>
+				))}
+			</ul>
+		);
+	}
 
 	return (
 		<div className='flex min-w-[350px] max-w-[350px] grow flex-col'>
@@ -38,18 +84,7 @@ const ChatList = () => {
 			<SearchUser />
 
 			<div className='customScroll grow overflow-y-auto px-2 pt-2'>
-				<ul>
-					<li>
-						<ChatItem userName='Dominic' />
-					</li>
-
-					<li>
-						<ChatItem
-							userName='Max'
-							lastMessage='Some last loooong message Some last loooong message Some last loooong message'
-						/>
-					</li>
-				</ul>
+				{content}
 			</div>
 
 			<div className='flex items-end justify-between p-4'>

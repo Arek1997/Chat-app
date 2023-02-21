@@ -14,12 +14,17 @@ interface UserResult {
 const SearchUser = () => {
 	const [searchUser, setSearchUser] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [result, setResult] = useState<UserResult[] | undefined>();
+	const [result, setResult] = useState<UserResult[] | undefined | null>();
 
 	const searchUserHandler = async () => {
 		const user = await findUserByUserName(searchUser);
 		setResult(user);
 		setLoading(false);
+	};
+
+	const resetInputAndResult = () => {
+		setSearchUser('');
+		setResult(null);
 	};
 
 	useEffect(() => {
@@ -43,14 +48,17 @@ const SearchUser = () => {
 			<ul>
 				{result.map((result) => (
 					<li key={result.id}>
-						<ChatItem userName={result.name} userImage={result.image} />
+						<ChatItem
+							id={result.id}
+							userName={result.name}
+							userImage={result.image}
+							onClear={resetInputAndResult}
+						/>
 					</li>
 				))}
 			</ul>
 		);
 	}
-
-	console.log(result);
 
 	return (
 		<div className='search border-b-[1px] px-2 pt-4 pb-2'>
@@ -72,7 +80,7 @@ const SearchUser = () => {
 				{searchUser.trim().length > 0 && (
 					<span
 						className='absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer'
-						onClick={() => setSearchUser('')}
+						onClick={resetInputAndResult}
 					>
 						✖
 					</span>

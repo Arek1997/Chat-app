@@ -5,7 +5,15 @@ import {
 	UserCredential,
 	signOut,
 } from 'firebase/auth';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import {
+	doc,
+	setDoc,
+	getDocs,
+	collection,
+	getDoc,
+	updateDoc,
+	onSnapshot,
+} from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 
 export const fetchData = async (url: string, options?: object) => {
@@ -57,18 +65,22 @@ export const logOutUser = async () => {
 	return user;
 };
 
-export const saveUserInFireStoreUsersColl = async (
+export const saveUserInFireStoreCollection = async (
 	id: string,
 	userData: { id: string; name: string; email: string }
 ) => {
-	await setDoc(
-		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USERS!, id),
+	await setDataToCollection(
+		process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USERS!,
+		id,
 		userData
 	);
 
-	await setDoc(
-		doc(db, process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!, id),
-		{}
+	await setDataToCollection(
+		process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
+		id,
+		{
+			owner: userData,
+		}
 	);
 };
 
@@ -85,4 +97,42 @@ export const findUserByUserName = async (userName: string) => {
 	);
 
 	return user;
+};
+
+export const getDataFromCollection = async (
+	collectionName: string,
+	id: string
+) => {
+	const docSnap = await getDoc(doc(db, collectionName, id));
+	return docSnap;
+};
+
+export const getRealTimeDataFromCollection = (
+	collectionName: string,
+	id: string,
+	callback: (data: any) => void
+) => {
+	const unsub = onSnapshot(doc(db, collectionName, id), (doc) =>
+		callback(doc.data())
+	);
+
+	return unsub;
+};
+
+export const setDataToCollection = async (
+	collectionName: string,
+	id?: string,
+	data?: object
+) => {
+	const identifier = id ? id : crypto.randomUUID();
+
+	await setDoc(doc(db, collectionName, identifier), data ? data : {});
+};
+
+export const updateCollectionData = async (
+	collectionName: string,
+	id: string,
+	data: object
+) => {
+	await updateDoc(doc(db, collectionName, id), data);
 };
