@@ -8,8 +8,15 @@ import { useEffect, useState } from 'react';
 
 let content: JSX.Element;
 
+interface ChatsInterface {
+	id: string;
+	name: string;
+	lastMessage: string;
+}
+
 const ChatList = () => {
-	const [chats, setChats] = useState<{ id: string; name: string }[]>();
+	console.log('ChatList');
+	const [chats, setChats] = useState<ChatsInterface[]>();
 
 	const { data } = useSession();
 	const user = data?.user;
@@ -33,6 +40,7 @@ const ChatList = () => {
 			arr.push({
 				id: data.activeChats[key].userData.id as string,
 				name: data.activeChats[key].userData.name as string,
+				lastMessage: data.activeChats[key].lastMessage as string,
 			});
 		}
 
@@ -54,11 +62,17 @@ const ChatList = () => {
 	}, [user?.uid]);
 
 	if (chats) {
+		console.log(chats);
+
 		content = (
 			<ul>
 				{chats.map((chat) => (
 					<li key={chat.id}>
-						<ChatItem userName={chat.name} id={chat.id} />
+						<ChatItem
+							id={chat.id}
+							userName={chat.name}
+							lastMessage={chat.lastMessage}
+						/>
 					</li>
 				))}
 			</ul>

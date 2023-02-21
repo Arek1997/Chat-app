@@ -1,3 +1,4 @@
+import { useSelectChat } from '@/context/ChatContext';
 import {
 	getDataFromCollection,
 	setDataToCollection,
@@ -15,7 +16,9 @@ interface Props {
 }
 
 const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
+	console.log('ChatItem');
 	const { data } = useSession();
+	const selectChat = useSelectChat();
 
 	const image = userImage || '/person-icon.png';
 
@@ -42,11 +45,11 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 					process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
 					data?.user.uid!,
 					{
-						['activeChats' + '.' + sharedId + '.userData']: {
+						[`activeChats.${sharedId}.userData`]: {
 							id,
 							name: userName,
 						},
-						['activeChats' + '.' + sharedId + '.date']: serverTimestamp(),
+						[`activeChats.${sharedId}.date`]: serverTimestamp(),
 					}
 				);
 
@@ -54,20 +57,27 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 					process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
 					id!,
 					{
-						['activeChats' + '.' + sharedId + '.userData']: {
+						[`activeChats.${sharedId}.userData`]: {
 							id: data?.user.uid,
 							name: data?.user.name,
 						},
-						['activeChats' + '.' + sharedId + '.date']: serverTimestamp(),
+						[`activeChats.${sharedId}.date`]: serverTimestamp(),
 					}
 				);
 			} else {
 				console.log('Konwersacja istnieje');
+
+				selectChat?.updateSelectedChat({
+					chatId: sharedId,
+					selectedUserId: id!,
+					selectedUserName: userName,
+				});
 			}
 
 			onClear && onClear();
 		} catch (err) {
 			console.log(err);
+			alert('Some issue occurred, try later.');
 		}
 	};
 
