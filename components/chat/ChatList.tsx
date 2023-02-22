@@ -61,6 +61,10 @@ const ChatList = () => {
 		};
 	}, [user?.uid]);
 
+	if (!chats) {
+		content = <p className='text-center'>Add your first user and start talk</p>;
+	}
+
 	if (chats) {
 		console.log(chats);
 
@@ -104,7 +108,9 @@ const ChatList = () => {
 			<div className='flex items-end justify-between p-4'>
 				<Button
 					text='+ New Chat'
-					style='px-4 py-2 transition-colors hover:bg-teal-500'
+					style='px-4 py-2 transition-colors enabled:hover:bg-teal-500'
+					disabled={true}
+					title='This button is temporarily disabled, until implement creating "+ New Chat" function.'
 				/>
 
 				<Button

@@ -93,7 +93,8 @@ const SendMessage = () => {
 						}}
 						name='message'
 						id='message'
-						placeholder='Send a message...'
+						aria-placeholder='Write a message...'
+						placeholder='Write a message...'
 						className='textAreaMessage w-full resize-none rounded-lg bg-transparent px-4 py-2 outline-none transition-colors placeholder:text-slate-200/80 hover:bg-slate-200/20 focus:bg-slate-200/20'
 					/>
 				</div>
@@ -101,6 +102,9 @@ const SendMessage = () => {
 					<label
 						htmlFor='files'
 						className='cursor-pointer transition-opacity hover:opacity-80'
+						aria-label='Add file'
+						title='Add file'
+						aria-haspopup
 					>
 						<img
 							src='/paperclip.png'
@@ -108,10 +112,19 @@ const SendMessage = () => {
 							className='w-6 rotate-45'
 						/>
 					</label>
-					<input type='file' name='files' id='files' className='hidden' />
+					<input
+						type='file'
+						name='files'
+						id='files'
+						className='hidden'
+						aria-hidden
+					/>
 				</div>
 
-				<Button style='p-3 transition-opacity hover:opacity-80'>
+				<Button
+					style='p-3 transition-opacity hover:opacity-80'
+					title='Send message'
+				>
 					<img src='/sendIcon.png' alt='sendIcon' className='h-6 w-6' />
 				</Button>
 			</form>
