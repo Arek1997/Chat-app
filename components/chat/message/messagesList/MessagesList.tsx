@@ -43,7 +43,7 @@ const MessagesList = () => {
 
 	return (
 		<div className='customScroll mr-4 grow overflow-y-auto px-4'>
-			{messages ? (
+			{messages?.length ? (
 				<ul className='flex flex-col gap-y-4'>
 					{messages?.map((msg) => {
 						const isOwner = msg.senderData.id === data?.user.uid ? true : false;
