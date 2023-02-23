@@ -19,7 +19,7 @@ const AuthForm = ({ title }: Props) => {
 			<Head>
 				<title>{isLogInRoute ? 'Login' : 'Register'}</title>
 			</Head>
-			<section className='fade-in-from-bottom flex w-[280px] flex-col items-center overflow-hidden rounded-md bg-slate-300/80 p-5 sm:w-[310px]'>
+			<section className='fade-in-from-bottom relative m-auto flex max-w-[310px] flex-col items-center overflow-hidden rounded-md bg-slate-300/80 p-5'>
 				{isLoading && <LoadingSpinner />}
 				<h2 className='border-b-2 border-indigo-500 px-2 text-xl font-semibold'>
 					{title}

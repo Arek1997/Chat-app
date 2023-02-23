@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { useRef } from 'react';
 
 const SendMessage = () => {
-	console.log('SendMessage');
 	const { data } = useSession();
 	const selectedChat = useSelectChat();
 	const messageRef = useRef<HTMLTextAreaElement>(null);

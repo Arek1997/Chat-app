@@ -5,6 +5,7 @@ import { getRealTimeDataFromCollection, logOutUser } from '@/helpers';
 import Button from '../button/Button';
 import SearchUser from './searchUser/SearchUser';
 import { useEffect, useState } from 'react';
+import { useToggle } from '@/context/ToggleContext';
 
 let content: JSX.Element;
 
@@ -15,7 +16,9 @@ interface ChatsInterface {
 }
 
 const ChatList = () => {
-	console.log('ChatList');
+	const {
+		state: { chatListOpen },
+	} = useToggle();
 	const [chats, setChats] = useState<ChatsInterface[]>();
 
 	const { data } = useSession();
@@ -66,8 +69,6 @@ const ChatList = () => {
 	}
 
 	if (chats) {
-		console.log(chats);
-
 		content = (
 			<ul>
 				{chats.map((chat) => (
@@ -84,7 +85,7 @@ const ChatList = () => {
 	}
 
 	return (
-		<div className='flex min-w-[350px] max-w-[350px] grow flex-col'>
+		<div className={`h-full flex-col ${chatListOpen ? 'flex' : 'hidden'}`}>
 			<div className='flex justify-between p-4'>
 				<h1 className='text-xl font-semibold tracking-wider'>My Chats</h1>
 				<div className='details flex items-center gap-x-2'>

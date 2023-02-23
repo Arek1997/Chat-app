@@ -15,7 +15,6 @@ interface MessageINterface {
 }
 
 const MessagesList = () => {
-	console.log('MessagesList');
 	const { data } = useSession();
 	const [messages, setMessages] = useState<MessageINterface[]>();
 

@@ -1,4 +1,5 @@
 import { useSelectChat } from '@/context/ChatContext';
+import { useToggle } from '@/context/ToggleContext';
 import {
 	getDataFromCollection,
 	setDataToCollection,
@@ -17,6 +18,7 @@ interface Props {
 
 const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 	console.log('ChatItem');
+	const { toggleHandler } = useToggle();
 	const { data } = useSession();
 	const selectChat = useSelectChat();
 
@@ -72,6 +74,7 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 					selectedUserId: id!,
 					selectedUserName: userName,
 				});
+				toggleHandler();
 			}
 
 			onClear && onClear();

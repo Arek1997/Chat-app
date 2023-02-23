@@ -6,7 +6,6 @@ interface Props {
 }
 
 const Message = ({ message, owner, image, user }: Props) => {
-	console.log('Message');
 	const userImage = image || '/person-icon.png';
 	const userName = user || 'User Name';
 
