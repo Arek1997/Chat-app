@@ -192,7 +192,10 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 							className='absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer'
 							onClick={toggleHandler}
 						>
-							👁
+							<img
+								src={`/eye-${value === 'password' ? '1' : '2'}.png`}
+								alt='Eye icon'
+							/>
 						</span>
 					)}
 				</div>
