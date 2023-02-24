@@ -1,4 +1,5 @@
 import { fetchData } from '@/helpers';
+import useToggle from '@/hooks/useToggle';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -28,6 +29,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 		register,
 		handleSubmit,
 		reset,
+		watch,
 		formState: { errors, isSubmitSuccessful, isSubmitting },
 	} = useForm<Inputs>({
 		mode: 'onTouched',
@@ -37,6 +39,10 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 			password: '',
 		},
 	});
+
+	const watchPassword = watch('password');
+
+	const { value, toggleHandler } = useToggle({ values: ['password', 'text'] });
 
 	const onSubmitHandler: SubmitHandler<Inputs> = async ({
 		name,
@@ -163,21 +169,33 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 				<label htmlFor='user-password' className='mb-2'>
 					Password
 				</label>
-				<input
-					type='password'
-					id='user-password'
-					placeholder='********'
-					className='rounded-md px-4 py-2 outline-indigo-500'
-					{...register('password', {
-						required: 'Password is required',
-						pattern: {
-							message:
-								'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
-							value:
-								/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm,
-						},
-					})}
-				/>
+				<div className='relative'>
+					<input
+						type={value}
+						id='user-password'
+						placeholder='********'
+						className='w-full rounded-md px-4 py-2 outline-indigo-500'
+						{...register('password', {
+							required: 'Password is required',
+
+							pattern: {
+								message:
+									'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
+								value:
+									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm,
+							},
+						})}
+					/>
+
+					{watchPassword && (
+						<span
+							className='absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer'
+							onClick={toggleHandler}
+						>
+							👁
+						</span>
+					)}
+				</div>
 				<p className='error-msg basis-full text-center font-semibold text-red-600'>
 					{errors.password?.message}
 				</p>
