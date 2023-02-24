@@ -103,7 +103,7 @@ const ChatList = () => {
 
 			<SearchUser />
 
-			<div className='customScroll grow overflow-y-auto px-2 pt-2'>
+			<div className='customScroll min-h-[150px] grow overflow-y-auto px-2 pt-2'>
 				{content}
 			</div>
 
