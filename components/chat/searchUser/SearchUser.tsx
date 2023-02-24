@@ -68,7 +68,7 @@ const SearchUser = () => {
 					type='text'
 					name='search-user'
 					id='search-user'
-					className='w-full rounded-lg bg-cyan-600 px-4 py-2 outline-none placeholder:text-slate-300'
+					className='w-full rounded-lg bg-cyan-600 px-4 py-2 outline-cyan-500 placeholder:text-slate-300'
 					placeholder='Search user'
 					value={searchUser}
 					onChange={(e) => {

@@ -44,10 +44,11 @@ const ChatList = () => {
 				id: data.activeChats[key].userData.id as string,
 				name: data.activeChats[key].userData.name as string,
 				lastMessage: data.activeChats[key].lastMessage as string,
+				date: data.activeChats[key].date as Date,
 			});
 		}
 
-		setChats(arr);
+		setChats(arr.sort((a, b) => +b.date - +a.date));
 	};
 
 	useEffect(() => {
@@ -106,10 +107,10 @@ const ChatList = () => {
 				{content}
 			</div>
 
-			<div className='flex items-end justify-between p-4'>
+			<div className='flex items-end justify-end p-4'>
 				<Button
 					text='+ New Chat'
-					style='px-4 py-2 transition-colors enabled:hover:bg-teal-500'
+					style='px-4 py-2 transition-colors enabled:hover:bg-teal-500 hidden'
 					disabled={true}
 					title='This button is temporarily disabled, until implement creating "+ New Chat" function.'
 				/>

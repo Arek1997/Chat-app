@@ -4,11 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 
 const Home = () => {
-	return (
-		<>
-			<ChatApp />
-		</>
-	);
+	return <ChatApp />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

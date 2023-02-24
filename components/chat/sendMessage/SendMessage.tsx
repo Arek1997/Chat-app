@@ -100,7 +100,7 @@ const SendMessage = () => {
 				<div className='mx-4'>
 					<label
 						htmlFor='files'
-						className='cursor-pointer transition-opacity hover:opacity-80'
+						className='hidden cursor-pointer transition-opacity hover:opacity-80'
 						aria-label='Add file'
 						title='Add file'
 						aria-haspopup

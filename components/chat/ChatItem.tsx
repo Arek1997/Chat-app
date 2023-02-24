@@ -17,7 +17,6 @@ interface Props {
 }
 
 const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
-	console.log('ChatItem');
 	const { toggleHandler } = useToggle();
 	const { data } = useSession();
 	const selectChat = useSelectChat();
@@ -35,8 +34,6 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 			);
 
 			if (!collectionData.exists()) {
-				console.log('Konwersacja nie istnieje');
-
 				await setDataToCollection(
 					process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_CHATS!,
 					sharedId,
@@ -67,8 +64,6 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 					}
 				);
 			} else {
-				console.log('Konwersacja istnieje');
-
 				selectChat?.updateSelectedChat({
 					chatId: sharedId,
 					selectedUserId: id!,

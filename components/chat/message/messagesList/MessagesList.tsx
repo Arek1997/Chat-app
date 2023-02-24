@@ -25,7 +25,7 @@ const MessagesList = () => {
 	const callBack = (data: any | Function) => setMessages(data.messages);
 
 	useEffect(() => {
-		scrollToRef.current?.scrollIntoView();
+		scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
 	}, [messages]);
 
 	useEffect(() => {

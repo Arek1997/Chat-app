@@ -4,8 +4,6 @@ import MessagesList from './message/messagesList/MessagesList';
 import SendMessage from './sendMessage/SendMessage';
 
 const Chat = () => {
-	console.log('Chat');
-
 	const {
 		state: { chatOpen },
 		toggleHandler,
