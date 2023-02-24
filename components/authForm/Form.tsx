@@ -104,7 +104,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 		responseMessage?.status === 'success' ? 'text-green-700' : 'text-red-700';
 
 	return (
-		<form className='py-6' onSubmit={handleSubmit(onSubmitHandler)}>
+		<form className='w-full py-6' onSubmit={handleSubmit(onSubmitHandler)}>
 			{responseMessage && (
 				<span
 					className={`mb-6 block text-center font-semibold ${responseColor}`}
