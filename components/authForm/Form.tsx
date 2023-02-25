@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import ErrorMessage from '../UI/errorMessage/ErrorMessage';
 
 interface Inputs {
 	name?: string;
@@ -140,9 +141,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 							},
 						})}
 					/>
-					<p className='error-msg text-center font-semibold text-red-600'>
-						{errors.name?.message}
-					</p>
+					<ErrorMessage message={errors.name?.message} style='text-red-600' />
 				</div>
 			)}
 
@@ -163,9 +162,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						},
 					})}
 				/>
-				<p className='error-msg text-center font-semibold text-red-600'>
-					{errors.email?.message}
-				</p>
+				<ErrorMessage message={errors.email?.message} style='text-red-600' />
 			</div>
 
 			<div className='mb-4 flex flex-col text-center'>
@@ -202,9 +199,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						</span>
 					)}
 				</div>
-				<p className='error-msg text-center font-semibold text-red-600'>
-					{errors.password?.message}
-				</p>
+				<ErrorMessage message={errors.password?.message} style='text-red-600' />
 			</div>
 
 			<button className='ml-auto mt-4 block rounded-md bg-slate-200 px-4 py-2 outline-indigo-500 transition-colors duration-300 hover:bg-slate-50 focus:scale-95'>
