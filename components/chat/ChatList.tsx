@@ -97,7 +97,17 @@ const ChatList = () => {
 							className='h-6 w-6 rounded-full'
 						/>
 					</div>
-					<span className='max-w-[150px] truncate'>{user?.name || 'User'}</span>
+					<span className='max-w-[120px] truncate'>{user?.name || 'User'}</span>
+					<a
+						href='/settings'
+						className='ml-3 transition-transform hover:rotate-45'
+					>
+						<img
+							src='/settings.png'
+							alt='Settings'
+							className='h-6 w-6 invert'
+						/>
+					</a>
 				</div>
 			</div>
 
