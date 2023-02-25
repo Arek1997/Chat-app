@@ -25,7 +25,8 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 		handleSubmit,
 		reset,
 		watch,
-		formState: { errors, isSubmitSuccessful, isSubmitting },
+		getValues,
+		formState: { errors, isSubmitting, isSubmitSuccessful, isSubmitted },
 	} = useForm<Inputs>({
 		mode: 'onTouched',
 		defaultValues: {
@@ -78,7 +79,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 					throw new Error(errorMessage);
 				}
 
-				setResponse({ status: 'success', message: 'Account created.' });
+				setResponse({ status: data.status, message: data.message });
 			} catch (err: any) {
 				console.log(err.message);
 				setResponse({ status: 'error', message: err.message });
@@ -91,6 +92,24 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 	}, [isSubmitting]);
 
 	useEffect(() => {
+		if (!isLogInRoute && isSubmitted && response?.status === 'success') {
+			console.log('isSubmitted', isSubmitted);
+			console.log('response', response?.status === 'success');
+
+			const { email, password } = getValues();
+			signIn('credentials', {
+				redirect: false,
+				email,
+				password,
+			})
+				.then(() => {
+					router.push('/');
+				})
+				.catch((err) => {
+					setResponse({ status: 'error', message: err.message });
+				});
+		}
+
 		reset({
 			name: '',
 			email: '',
