@@ -1,5 +1,6 @@
 import { useSelectChat } from '@/context/ChatContext';
 import { useToggle } from '@/context/ToggleContext';
+import Close from '../UI/close/Close';
 import MessagesList from './message/messagesList/MessagesList';
 import SendMessage from './sendMessage/SendMessage';
 
@@ -18,17 +19,13 @@ const Chat = () => {
 				<h2 className='text-xl font-semibold'>
 					{selectedChat?.chatData?.selectedUserName ?? 'User Name'}
 				</h2>
-				<span
-					className='absolute top-1/2 right-7 -translate-y-1/2 cursor-pointer text-xl hover:opacity-80'
-					title='Close chat'
-					aria-label='Close chat'
+				<Close
+					style='right-7 text-xl hover:opacity-80'
 					onClick={() => {
 						selectedChat?.updateSelectedChat(null);
 						toggleHandler();
 					}}
-				>
-					✖
-				</span>
+				/>
 			</div>
 			<MessagesList />
 			<SendMessage />

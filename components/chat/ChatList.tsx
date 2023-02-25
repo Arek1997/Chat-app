@@ -9,6 +9,7 @@ import Button from '../UI/button/Button';
 import SearchUser from './searchUser/SearchUser';
 import { useEffect, useState } from 'react';
 import { useToggle } from '@/context/ToggleContext';
+import Link from 'next/link';
 
 let content: JSX.Element;
 
@@ -101,7 +102,7 @@ const ChatList = () => {
 						/>
 					</div>
 					<span className='max-w-[120px] truncate'>{user?.name || 'User'}</span>
-					<a
+					<Link
 						href='/settings'
 						className='ml-3 transition-transform hover:rotate-45'
 					>
@@ -110,7 +111,7 @@ const ChatList = () => {
 							alt='Settings'
 							className='h-6 w-6 invert'
 						/>
-					</a>
+					</Link>
 				</div>
 			</div>
 

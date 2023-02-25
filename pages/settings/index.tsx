@@ -1,7 +1,15 @@
 import Settings from '@/components/settings/Settings';
+import Head from 'next/head';
 
 const SettingsPage = () => {
-	return <Settings />;
+	return (
+		<>
+			<Head>
+				<title>Settings</title>
+			</Head>
+			<Settings />;
+		</>
+	);
 };
 
 export default SettingsPage;
