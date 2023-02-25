@@ -1,19 +1,15 @@
 import { fetchData } from '@/helpers';
+import useResponseMessage from '@/hooks/useResponseMessage';
 import useToggle from '@/hooks/useToggle';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface Inputs {
 	name?: string;
 	email: string;
 	password: string;
-}
-
-interface Response {
-	status: 'success' | 'error';
-	message: string;
 }
 
 interface Props {
@@ -24,7 +20,6 @@ interface Props {
 
 const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 	const router = useRouter();
-	const [responseMessage, setResponseMessage] = useState<Response | null>();
 	const {
 		register,
 		handleSubmit,
@@ -38,6 +33,11 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 			email: '',
 			password: '',
 		},
+	});
+
+	const { message, response, setResponse } = useResponseMessage({
+		style: 'mb-6',
+		colors: { success: 'text-green-700', error: 'text-red-700' },
 	});
 
 	const watchPassword = watch('password');
@@ -63,7 +63,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 
 				router.push('/');
 			} catch (err: any) {
-				setResponseMessage({ status: 'error', message: err.message });
+				setResponse({ status: 'error', message: err.message });
 			}
 		} else {
 			try {
@@ -78,10 +78,10 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 					throw new Error(errorMessage);
 				}
 
-				setResponseMessage({ status: 'success', message: 'Account created.' });
+				setResponse({ status: 'success', message: 'Account created.' });
 			} catch (err: any) {
 				console.log(err.message);
-				setResponseMessage({ status: 'error', message: err.message });
+				setResponse({ status: 'error', message: err.message });
 			}
 		}
 	};
@@ -96,28 +96,12 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 			email: '',
 			password: '',
 		});
-
-		if (responseMessage?.status === 'success') {
-			const timeout = setTimeout(() => {
-				setResponseMessage(null);
-			}, 2000);
-
-			return () => clearTimeout(timeout);
-		}
 	}, [isSubmitSuccessful]);
-
-	const responseColor =
-		responseMessage?.status === 'success' ? 'text-green-700' : 'text-red-700';
 
 	return (
 		<form className='w-full py-6' onSubmit={handleSubmit(onSubmitHandler)}>
-			{responseMessage && (
-				<span
-					className={`mb-6 block text-center font-semibold ${responseColor}`}
-				>
-					{responseMessage?.message}
-				</span>
-			)}
+			{response && message}
+
 			{!isLogInRoute && (
 				<div className='mb-4 flex flex-col text-center'>
 					<label htmlFor='user-name' className='mb-2'>
