@@ -1,4 +1,4 @@
-import { logUser } from '@/helpers';
+import { logUserToFirebase } from '@/helpers';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
 				};
 
 				try {
-					const { user } = await logUser(email, password);
+					const { user } = await logUserToFirebase(email, password);
 
 					return {
 						email: user.email,

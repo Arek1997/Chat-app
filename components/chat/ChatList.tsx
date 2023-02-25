@@ -1,6 +1,9 @@
 import { signOut, useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
-import { getRealTimeDataFromCollection, logOutUser } from '@/helpers';
+import {
+	getRealTimeDataFromCollection,
+	logOutUserFromFirebase,
+} from '@/helpers';
 
 import Button from '../UI/button/Button';
 import SearchUser from './searchUser/SearchUser';
@@ -27,7 +30,7 @@ const ChatList = () => {
 
 	const logOutUserHandler = async () => {
 		try {
-			await logOutUser();
+			await logOutUserFromFirebase();
 			await signOut();
 		} catch (err) {
 			console.log(err);

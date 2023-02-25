@@ -43,7 +43,7 @@ export const createNewUser = async (email: string, password: string) => {
 	return newUser;
 };
 
-export const logUser = async (email: string, password: string) => {
+export const logUserToFirebase = async (email: string, password: string) => {
 	const loggedUser: UserCredential = await signInWithEmailAndPassword(
 		auth,
 		email,
@@ -60,7 +60,7 @@ export const updateUser = async (name: string, photo?: string) => {
 	return user;
 };
 
-export const logOutUser = async () => {
+export const logOutUserFromFirebase = async () => {
 	const user = await signOut(auth);
 	return user;
 };
