@@ -140,7 +140,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 							},
 						})}
 					/>
-					<p className='error-msg basis-full text-center font-semibold text-red-600'>
+					<p className='error-msg text-center font-semibold text-red-600'>
 						{errors.name?.message}
 					</p>
 				</div>
@@ -163,7 +163,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						},
 					})}
 				/>
-				<p className='error-msg basis-full text-center font-semibold text-red-600'>
+				<p className='error-msg text-center font-semibold text-red-600'>
 					{errors.email?.message}
 				</p>
 			</div>
@@ -202,7 +202,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						</span>
 					)}
 				</div>
-				<p className='error-msg basis-full text-center font-semibold text-red-600'>
+				<p className='error-msg text-center font-semibold text-red-600'>
 					{errors.password?.message}
 				</p>
 			</div>
