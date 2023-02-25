@@ -1,4 +1,4 @@
-import Button from '@/components/button/Button';
+import Button from '@/components/UI/button/Button';
 import { useSelectChat } from '@/context/ChatContext';
 import { updateCollectionData } from '@/helpers';
 import { arrayUnion, serverTimestamp, Timestamp } from 'firebase/firestore';

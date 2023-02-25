@@ -2,7 +2,7 @@ import { signOut, useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
 import { getRealTimeDataFromCollection, logOutUser } from '@/helpers';
 
-import Button from '../button/Button';
+import Button from '../UI/button/Button';
 import SearchUser from './searchUser/SearchUser';
 import { useEffect, useState } from 'react';
 import { useToggle } from '@/context/ToggleContext';

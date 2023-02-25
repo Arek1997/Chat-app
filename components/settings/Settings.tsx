@@ -1,7 +1,8 @@
 import React from 'react';
+import Section from '../UI/section/Section';
 
 const Settings = () => {
-	return <div>Settings</div>;
+	return <Section>Settings</Section>;
 };
 
 export default Settings;

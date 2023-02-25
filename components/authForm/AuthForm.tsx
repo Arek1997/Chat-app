@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../UI/loadingSpinner/LoadingSpinner';
 import Form from './Form';
 
 interface Props {
