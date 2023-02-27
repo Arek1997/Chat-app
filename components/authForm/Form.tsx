@@ -94,9 +94,6 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 
 	useEffect(() => {
 		if (!isLogInRoute && isSubmitted && response?.status === 'success') {
-			console.log('isSubmitted', isSubmitted);
-			console.log('response', response?.status === 'success');
-
 			const { email, password } = getValues();
 			signIn('credentials', {
 				redirect: false,
