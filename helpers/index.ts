@@ -136,3 +136,21 @@ export const updateCollectionData = async (
 ) => {
 	await updateDoc(doc(db, collectionName, id), data);
 };
+
+export const availableFormats = ['jpg', 'jpeg', 'png'];
+export const setChoosenImageName = (
+	imagePath: string,
+	callback: (arg: string) => void
+) => {
+	const checkFormat = () => {
+		if (availableFormats.some((format) => imagePath?.endsWith(format))) {
+			callback(imagePath?.split('\\').pop()!);
+		} else {
+			alert(
+				`Only images with ${availableFormats.join(', ')} format are available.`
+			);
+		}
+	};
+
+	checkFormat();
+};

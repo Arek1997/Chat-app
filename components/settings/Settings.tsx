@@ -1,5 +1,7 @@
+import { availableFormats, setChoosenImageName } from '@/helpers';
 import useResponseMessage from '@/hooks/useResponseMessage';
 import Link from 'next/link';
+import { useRef, useState } from 'react';
 import Button from '../UI/button/Button';
 import Close from '../UI/close/Close';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
@@ -10,6 +12,9 @@ const Settings = () => {
 		colors: { success: 'text-green-500', error: 'text-red-500' },
 		style: 'mt-5',
 	});
+
+	const [imageName, setImageName] = useState('');
+	const inputImageRef = useRef<HTMLInputElement>(null);
 
 	return (
 		<Section>
@@ -38,6 +43,7 @@ const Settings = () => {
 						</form>
 						<ErrorMessage message='Error' style='text-red-500' />
 					</div>
+
 					<div>
 						<form className='flex'>
 							<label htmlFor='change-email'></label>
@@ -51,6 +57,7 @@ const Settings = () => {
 						</form>
 						<ErrorMessage message='Error' style='text-red-500' />
 					</div>
+
 					<div>
 						<form className='flex'>
 							<label htmlFor='change-password'></label>
@@ -63,6 +70,40 @@ const Settings = () => {
 							<Button text='Change' style='px-4 py-2 text-sm ml-auto'></Button>
 						</form>
 						<ErrorMessage message='Error' style='text-red-500' />
+					</div>
+
+					<div>
+						<form className='flex items-center'>
+							<label
+								htmlFor='change-image'
+								className='cursor-pointer transition-opacity hover:opacity-80'
+								aria-label='Change Image'
+								title='Change Image'
+								aria-haspopup
+							>
+								<p className='max-w-[200px] px-4 py-2'>
+									{imageName ? imageName : 'Choose an image'}
+								</p>
+							</label>
+
+							<input
+								ref={inputImageRef}
+								type='file'
+								accept={availableFormats
+									.map((format) => `image/${format}`)
+									.join(', ')}
+								id='change-image'
+								className='hidden'
+								aria-hidden
+								onChange={() =>
+									setChoosenImageName(
+										inputImageRef.current?.value!,
+										setImageName
+									)
+								}
+							/>
+							<Button text='Change' style='px-4 py-2 text-sm ml-auto'></Button>
+						</form>
 					</div>
 				</div>
 			</div>
