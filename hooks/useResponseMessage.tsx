@@ -1,9 +1,5 @@
+import { Response } from '@/interface';
 import { useEffect, useState } from 'react';
-
-interface Response {
-	status: 'success' | 'error';
-	message: string;
-}
 
 interface Props {
 	style: string;
