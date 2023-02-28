@@ -3,6 +3,7 @@ import ChatItem from './ChatItem';
 import {
 	getRealTimeDataFromCollection,
 	logOutUserFromFirebase,
+	logOutUserHandler,
 } from '@/helpers';
 
 import Button from '../UI/button/Button';
@@ -28,15 +29,6 @@ const ChatList = () => {
 	const { data } = useSession();
 	const user = data?.user;
 	const image = user?.image || '/person-icon.png';
-
-	const logOutUserHandler = async () => {
-		try {
-			await logOutUserFromFirebase();
-			await signOut();
-		} catch (err) {
-			console.log(err);
-		}
-	};
 
 	const transformData = (data: any) => {
 		if (!data.activeChats) return;

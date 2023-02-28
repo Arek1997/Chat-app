@@ -15,6 +15,7 @@ import {
 	onSnapshot,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
+import { signOut as NextsignOut } from 'next-auth/react';
 
 export const fetchData = async (url: string, options?: object) => {
 	const res = await fetch(url, options);
@@ -60,9 +61,16 @@ export const updateUser = async (name: string, photo?: string) => {
 	return user;
 };
 
-export const logOutUserFromFirebase = async () => {
-	const user = await signOut(auth);
-	return user;
+export const logOutUserFromFirebase = async () => await signOut(auth);
+
+export const logOutUserHandler = async () => {
+	try {
+		await logOutUserFromFirebase();
+		await NextsignOut();
+	} catch (err) {
+		alert(err);
+		console.log(err);
+	}
 };
 
 export const saveUserInFireStoreCollection = async (
@@ -153,4 +161,28 @@ export const setChoosenImageName = (
 	};
 
 	checkFormat();
+};
+
+export const handleDataChange = async (
+	url: string,
+	reqBody: string,
+	onSuccess: (data: any) => void,
+	onError: (err: any) => void
+) => {
+	try {
+		const { res, data } = await fetchData(url, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ reqBody }),
+		});
+
+		if (!res.ok) {
+			const { errorMessage } = data;
+			throw new Error(errorMessage);
+		}
+
+		onSuccess(data);
+	} catch (err: any) {
+		onError(err);
+	}
 };
