@@ -23,15 +23,22 @@ export const fetchData = async (url: string, options?: object) => {
 	return { res, data };
 };
 
-export const validEmail = (email: string) => {
-	const isValid = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(email);
+export const NAME_REG_EXP = /[A-Za-z]{3}/;
+export const validName = (name: string) => {
+	const isValid = new RegExp(NAME_REG_EXP).test(name);
 	return isValid;
 };
 
+export const EMAIL_REG_EXP = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+export const validEmail = (email: string) => {
+	const isValid = new RegExp(EMAIL_REG_EXP).test(email);
+	return isValid;
+};
+
+export const PASSWORD_REG_EXP =
+	/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm;
 export const validPassword = (password: string) => {
-	const isValid = new RegExp(
-		/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm
-	).test(password);
+	const isValid = new RegExp(PASSWORD_REG_EXP).test(password);
 	return isValid;
 };
 

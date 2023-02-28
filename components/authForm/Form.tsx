@@ -1,4 +1,9 @@
-import { fetchData } from '@/helpers';
+import {
+	EMAIL_REG_EXP,
+	fetchData,
+	NAME_REG_EXP,
+	PASSWORD_REG_EXP,
+} from '@/helpers';
 import useResponseMessage from '@/hooks/useResponseMessage';
 import useToggle from '@/hooks/useToggle';
 import { signIn } from 'next-auth/react';
@@ -133,7 +138,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 							required: 'Name is required',
 							pattern: {
 								message: 'Name have to be at least 3 characters',
-								value: /[A-Za-z]{3}/,
+								value: NAME_REG_EXP,
 							},
 						})}
 					/>
@@ -154,7 +159,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						required: 'Email is required',
 						pattern: {
 							message: 'Email is not correct',
-							value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+							value: EMAIL_REG_EXP,
 						},
 					})}
 				/>
@@ -176,8 +181,7 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 							pattern: {
 								message:
 									'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
-								value:
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm,
+								value: PASSWORD_REG_EXP,
 							},
 						})}
 					/>
