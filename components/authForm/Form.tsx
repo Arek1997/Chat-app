@@ -131,7 +131,6 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						className='rounded-md px-4 py-2 outline-indigo-500'
 						{...register('name', {
 							required: 'Name is required',
-							minLength: 3,
 							pattern: {
 								message: 'Name have to be at least 3 characters',
 								value: /[A-Za-z]{3}/,
@@ -174,7 +173,6 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						className='w-full rounded-md px-4 py-2 outline-indigo-500'
 						{...register('password', {
 							required: 'Password is required',
-
 							pattern: {
 								message:
 									'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
