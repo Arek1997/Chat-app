@@ -4,6 +4,7 @@ import {
 	saveUserInFireStoreCollection,
 	updateUser,
 	validEmail,
+	validName,
 	validPassword,
 } from '@/helpers';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -22,7 +23,7 @@ export default async function handler(
 
 	const { email, password, name }: reqBody = req.body;
 
-	if (name.trim().length < 3) {
+	if (!validName(name)) {
 		return res.status(403).json({
 			status: 'error',
 			errorMessage: `Name have to be at least 3 characters`,
