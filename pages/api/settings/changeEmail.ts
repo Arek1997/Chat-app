@@ -108,6 +108,4 @@ export default async function handler(
 		console.log(err.message);
 		res.status(500).json({ status: 'error', errorMessage: err.message });
 	}
-
-	console.log(data);
 }
