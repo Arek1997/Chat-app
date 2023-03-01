@@ -26,8 +26,8 @@ const Email = ({ setResponse }: Props) => {
 		},
 	});
 
-	const changeUserEmail: SubmitHandler<Input> = async (data) => {
-		const updatedEmail = data.email.trim();
+	const changeUserEmail: SubmitHandler<Input> = async ({ email }) => {
+		const updatedEmail = email;
 
 		await handleDataChange(
 			'/api/settings/changeEmail',

@@ -26,8 +26,8 @@ const Name = ({ setResponse }: Props) => {
 		},
 	});
 
-	const changeUserName: SubmitHandler<Input> = async (data) => {
-		const updatedName = data.name.trim();
+	const changeUserName: SubmitHandler<Input> = async ({ name }) => {
+		const updatedName = name.trim();
 
 		await handleDataChange(
 			'/api/settings/changeName',
