@@ -152,17 +152,24 @@ export const updateCollectionData = async (
 	await updateDoc(doc(db, collectionName, id), data);
 };
 
-export const availableFormats = ['jpg', 'jpeg', 'png'];
-export const setChoosenImageName = (
-	imagePath: string,
+export const availableImageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+export const checkIfFileIsAnImage = (
+	file: File,
 	callback: (arg: string) => void
 ) => {
 	const checkFormat = () => {
-		if (availableFormats.some((format) => imagePath?.endsWith(format))) {
-			callback(imagePath?.split('\\').pop()!);
+		const fileType = file.type.split('/').shift();
+
+		if (
+			fileType === 'image' &&
+			availableImageFormats.some((format) => file.name?.endsWith(format))
+		) {
+			callback(file.name);
 		} else {
 			alert(
-				`Only images with ${availableFormats.join(', ')} format are available.`
+				`Only images with ${availableImageFormats.join(
+					', '
+				)} format are available.`
 			);
 		}
 	};
@@ -170,9 +177,9 @@ export const setChoosenImageName = (
 	checkFormat();
 };
 
-export const handleDataChange = async (
+export const handleDataChange = async <T>(
 	url: string,
-	reqBody: string,
+	reqBody: string | T,
 	onSuccess: (data: any) => void,
 	onError: (err: any) => void
 ) => {
