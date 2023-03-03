@@ -1,16 +1,13 @@
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import ChatItem from './ChatItem';
-import {
-	getRealTimeDataFromCollection,
-	logOutUserFromFirebase,
-	logOutUserHandler,
-} from '@/helpers';
+import { getRealTimeDataFromCollection, logOutUserHandler } from '@/helpers';
 
 import Button from '../UI/button/Button';
 import SearchUser from './searchUser/SearchUser';
 import { useEffect, useState } from 'react';
 import { useToggle } from '@/context/ToggleContext';
 import Link from 'next/link';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 let content: JSX.Element;
 
@@ -29,6 +26,7 @@ const ChatList = () => {
 	const { data } = useSession();
 	const user = data?.user;
 	const image = user?.image || '/person-icon.png';
+	const [parent] = useAutoAnimate();
 
 	const transformData = (data: any) => {
 		if (!data.activeChats) return;
@@ -109,7 +107,10 @@ const ChatList = () => {
 
 			<SearchUser />
 
-			<div className='customScroll min-h-[150px] grow overflow-y-auto px-2 pt-2'>
+			<div
+				className='customScroll min-h-[150px] grow overflow-y-auto px-2 pt-2'
+				ref={parent}
+			>
 				{content}
 			</div>
 

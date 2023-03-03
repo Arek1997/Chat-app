@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { findUserByUserName } from '@/helpers';
 import ChatItem from '../ChatItem';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 let content: string | JSX.Element;
 
@@ -12,6 +13,7 @@ interface UserResult {
 }
 
 const SearchUser = () => {
+	const [parent] = useAutoAnimate();
 	const [searchUser, setSearchUser] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [result, setResult] = useState<UserResult[] | undefined | null>();
@@ -87,7 +89,10 @@ const SearchUser = () => {
 				)}
 			</div>
 			{searchUser.trim().length > 0 && (
-				<div className='result customScroll mt-4 max-h-[150px] overflow-y-auto'>
+				<div
+					className='result customScroll mt-4 max-h-[150px] overflow-y-auto'
+					ref={parent}
+				>
 					{content}
 				</div>
 			)}
