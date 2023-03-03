@@ -1,6 +1,5 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
-import { storage } from '@/firebase.config';
 import {
 	availableImageFormats,
 	handleDataChange,
@@ -8,7 +7,6 @@ import {
 	MAX_IMAGE_SIZE_IN_MB,
 } from '@/helpers';
 import { Response } from '@/interface';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
