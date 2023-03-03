@@ -157,24 +157,32 @@ export const checkIfFileIsAnImage = (
 	file: File,
 	callback: (arg: string) => void
 ) => {
-	const checkFormat = () => {
-		const fileType = file.type.split('/').shift();
+	if (checkFormat(file, 'image', availableImageFormats)) {
+		callback(file.name);
+	} else {
+		alert(
+			`Only images with ${availableImageFormats.join(
+				', '
+			)} format are available.`
+		);
+	}
+};
 
-		if (
-			fileType === 'image' &&
-			availableImageFormats.some((format) => file.name?.endsWith(format))
-		) {
-			callback(file.name);
-		} else {
-			alert(
-				`Only images with ${availableImageFormats.join(
-					', '
-				)} format are available.`
-			);
-		}
-	};
+export const checkFormat = (
+	file: File,
+	typeOfFile: string,
+	availableImageFormats: string[]
+) => {
+	const fileType = file.type.split('/').shift();
 
-	checkFormat();
+	if (
+		fileType === typeOfFile &&
+		availableImageFormats.some((format) => file.name?.endsWith(format))
+	) {
+		return true;
+	} else {
+		return false;
+	}
 };
 
 export const handleDataChange = async <T>(
@@ -183,11 +191,20 @@ export const handleDataChange = async <T>(
 	onSuccess: (data: any) => void,
 	onError: (err: any) => void
 ) => {
+	const headers =
+		typeof reqBody === 'string'
+			? {
+					'Content-Type': 'application/json',
+			  }
+			: undefined;
+	const body =
+		typeof reqBody === 'string' ? JSON.stringify({ reqBody }) : reqBody;
+
 	try {
 		const { res, data } = await fetchData(url, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ reqBody }),
+			headers,
+			body,
 		});
 
 		if (!res.ok) {
@@ -200,3 +217,5 @@ export const handleDataChange = async <T>(
 		onError(err);
 	}
 };
+
+export const MAX_IMAGE_SIZE_IN_MB = 1;
