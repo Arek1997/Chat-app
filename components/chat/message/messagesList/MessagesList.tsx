@@ -10,6 +10,7 @@ interface MessageINterface {
 	senderData: {
 		email: string;
 		id: string;
+		image: string;
 		name: string;
 	};
 }
@@ -47,7 +48,12 @@ const MessagesList = () => {
 					{messages?.map((msg) => {
 						const isOwner = msg.senderData.id === data?.user.uid ? true : false;
 						return (
-							<Message key={msg.id} message={msg.message} owner={isOwner} />
+							<Message
+								key={msg.id}
+								message={msg.message}
+								image={msg.senderData.image}
+								owner={isOwner}
+							/>
 						);
 					})}
 					<div className='scrollTo' ref={scrollToRef}></div>

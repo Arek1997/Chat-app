@@ -14,6 +14,7 @@ let content: JSX.Element;
 interface ChatsInterface {
 	id: string;
 	name: string;
+	image: string;
 	lastMessage: string;
 }
 
@@ -37,6 +38,7 @@ const ChatList = () => {
 			arr.push({
 				id: data.activeChats[key].userData.id as string,
 				name: data.activeChats[key].userData.name as string,
+				image: data.activeChats[key].userData.image as string,
 				lastMessage: data.activeChats[key].lastMessage as string,
 				date: data.activeChats[key].date as Date,
 			});
@@ -71,6 +73,7 @@ const ChatList = () => {
 						<ChatItem
 							id={chat.id}
 							userName={chat.name}
+							userImage={chat.image}
 							lastMessage={chat.lastMessage}
 						/>
 					</li>
