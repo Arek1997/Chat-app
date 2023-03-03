@@ -70,8 +70,7 @@ export default async function handler(
 
 		const activeChats = userData.data()?.activeChats;
 
-		for (const key in activeChats) {
-			const sharedId = key;
+		for (const sharedId in activeChats) {
 			const chatCollection = await getDataFromCollection(
 				process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_CHATS!,
 				sharedId

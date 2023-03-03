@@ -35,9 +35,8 @@ export default async function handler(
 
 		const activeChats = userData.data()?.activeChats;
 
-		for (const key in activeChats) {
-			const sharedId = key;
-			const id = activeChats[key].userData.id;
+		for (const sharedId in activeChats) {
+			const id = activeChats[sharedId].userData.id;
 
 			await updateCollectionData(
 				process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
@@ -48,8 +47,7 @@ export default async function handler(
 			);
 		}
 
-		for (const key in activeChats) {
-			const sharedId = key;
+		for (const sharedId in activeChats) {
 			const chatCollection = await getDataFromCollection(
 				process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_CHATS!,
 				sharedId
