@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
 						email: user.email,
 						name: user.displayName,
 						uid: user.uid,
+						image: user.photoURL,
 					};
 				} catch (err) {
 					console.log(err);
