@@ -1,5 +1,6 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
+import { useProcessing } from '@/context/ProcessingContext';
 import { EMAIL_REG_EXP, handleDataChange } from '@/helpers';
 import { Response } from '@/interface';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ interface Input {
 }
 
 const Email = ({ setResponse }: Props) => {
+	const { setProcessing } = useProcessing();
 	const {
 		register,
 		handleSubmit,
@@ -27,6 +29,7 @@ const Email = ({ setResponse }: Props) => {
 	});
 
 	const changeUserEmail: SubmitHandler<Input> = async ({ email }) => {
+		setProcessing(true);
 		const updatedEmail = email;
 
 		await handleDataChange(
@@ -35,6 +38,7 @@ const Email = ({ setResponse }: Props) => {
 			(data) => setResponse({ status: 'success', message: data.message }),
 			(err) => setResponse({ status: 'error', message: err.message })
 		);
+		setProcessing(false);
 	};
 
 	useEffect(() => {

@@ -1,5 +1,6 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
+import { useProcessing } from '@/context/ProcessingContext';
 import { handleDataChange, PASSWORD_REG_EXP } from '@/helpers';
 import useToggle from '@/hooks/useToggle';
 import { Response } from '@/interface';
@@ -15,6 +16,7 @@ interface Input {
 }
 
 const Password = ({ setResponse }: Props) => {
+	const { setProcessing } = useProcessing();
 	const {
 		register,
 		handleSubmit,
@@ -33,6 +35,7 @@ const Password = ({ setResponse }: Props) => {
 	const { value, toggleHandler } = useToggle({ values: ['password', 'text'] });
 
 	const changeUserPassword: SubmitHandler<Input> = async ({ password }) => {
+		setProcessing(true);
 		const updatedPassword = password.trim();
 
 		await handleDataChange(
@@ -41,6 +44,7 @@ const Password = ({ setResponse }: Props) => {
 			(data) => setResponse({ status: 'success', message: data.message }),
 			(err) => setResponse({ status: 'error', message: err.message })
 		);
+		setProcessing(false);
 	};
 
 	useEffect(() => {

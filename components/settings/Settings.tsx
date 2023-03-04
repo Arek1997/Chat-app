@@ -1,9 +1,11 @@
+import { useProcessing } from '@/context/ProcessingContext';
 import { logOutUserHandler } from '@/helpers';
 import useResponseMessage from '@/hooks/useResponseMessage';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
 import Close from '../UI/close/Close';
+import LoadingSpinner from '../UI/loadingSpinner/LoadingSpinner';
 import Section from '../UI/section/Section';
 import Email from './email/Email';
 import Image from './image/Image';
@@ -16,6 +18,8 @@ const Settings = () => {
 		style: 'mt-5',
 	});
 
+	const { processing } = useProcessing();
+
 	useEffect(() => {
 		if (response?.status === 'success') {
 			logOutUserHandler();
@@ -24,7 +28,8 @@ const Settings = () => {
 
 	return (
 		<Section>
-			<div className='container flex h-full flex-col p-4'>
+			<div className='container relative flex h-full flex-col p-4'>
+				{processing && <LoadingSpinner />}
 				<div className='relative'>
 					<h2 className='text-center text-2xl font-semibold'>Settings</h2>
 					<Link href='/'>

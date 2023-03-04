@@ -1,5 +1,6 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
+import { useProcessing } from '@/context/ProcessingContext';
 import { handleDataChange, NAME_REG_EXP } from '@/helpers';
 import { Response } from '@/interface';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ interface Input {
 }
 
 const Name = ({ setResponse }: Props) => {
+	const { setProcessing } = useProcessing();
 	const {
 		register,
 		handleSubmit,
@@ -27,6 +29,7 @@ const Name = ({ setResponse }: Props) => {
 	});
 
 	const changeUserName: SubmitHandler<Input> = async ({ name }) => {
+		setProcessing(true);
 		const updatedName = name.trim();
 
 		await handleDataChange(
@@ -35,6 +38,7 @@ const Name = ({ setResponse }: Props) => {
 			(data) => setResponse({ status: 'success', message: data.message }),
 			(err) => setResponse({ status: 'error', message: err.message })
 		);
+		setProcessing(false);
 	};
 
 	useEffect(() => {

@@ -10,6 +10,7 @@ import { Response } from '@/interface';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useProcessing } from '@/context/ProcessingContext';
 
 interface Props {
 	setResponse: (data: Response) => void;
@@ -23,6 +24,7 @@ const Image = ({ setResponse }: Props) => {
 	const [imageName, setImageName] = useState('');
 	const [imagePath, setimagePath] = useState<string>();
 	const [parent] = useAutoAnimate();
+	const { setProcessing } = useProcessing();
 
 	const {
 		register,
@@ -38,9 +40,11 @@ const Image = ({ setResponse }: Props) => {
 	});
 
 	const changeUserImage: SubmitHandler<Input> = ({ file }) => {
+		setProcessing(true);
 		const selectedFile = file[0];
 
 		if (selectedFile.size > MAX_IMAGE_SIZE_IN_MB * 1024 * 1024) {
+			setProcessing(false);
 			return setResponse({
 				status: 'error',
 				message: `Maximum image size is ${MAX_IMAGE_SIZE_IN_MB}mb`,
@@ -59,6 +63,7 @@ const Image = ({ setResponse }: Props) => {
 				(data) => setResponse({ status: 'success', message: data.message }),
 				(err) => setResponse({ status: 'error', message: err.message })
 			);
+			setProcessing(false);
 		};
 	};
 
