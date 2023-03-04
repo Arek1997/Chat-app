@@ -43,8 +43,12 @@ App includes:
 
 [![Photo shows Chat with Adam](https://i.ibb.co/NsXF8Kg/chat.png)](https://ibb.co/KXY5MWc)
 
+&nbsp;
+
+[![Photo shows Settings](https://i.ibb.co/b5BXD6b/settings.png)](https://ibb.co/GQ2RNdH)
+
 ## Todo 📝
 
 - Create group chats
 - Image sending
-- Profile edit
+- ~~Profile edit~~
