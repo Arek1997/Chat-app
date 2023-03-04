@@ -47,6 +47,7 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 						[`activeChats.${sharedId}.userData`]: {
 							id,
 							name: userName,
+							image: userImage,
 						},
 						[`activeChats.${sharedId}.date`]: serverTimestamp(),
 					}
@@ -59,6 +60,7 @@ const ChatItem = ({ id, userName, userImage, lastMessage, onClear }: Props) => {
 						[`activeChats.${sharedId}.userData`]: {
 							id: data?.user.uid,
 							name: data?.user.name,
+							image: data?.user.image,
 						},
 						[`activeChats.${sharedId}.date`]: serverTimestamp(),
 					}

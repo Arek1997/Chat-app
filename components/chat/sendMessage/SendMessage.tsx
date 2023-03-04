@@ -38,6 +38,7 @@ const SendMessage = () => {
 				id: data?.user.uid,
 				name: data?.user.name,
 				email: data?.user.email,
+				image: data?.user.image,
 			},
 		};
 

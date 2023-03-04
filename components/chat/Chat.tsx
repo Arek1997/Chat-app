@@ -16,7 +16,7 @@ const Chat = () => {
 			className={`h-full flex-col text-center ${chatOpen ? 'flex' : 'hidden'}`}
 		>
 			<div className='relative p-4'>
-				<h2 className='text-xl font-semibold'>
+				<h2 className='mx-auto max-w-[400px] truncate text-xl font-semibold sm:max-w-[200px]'>
 					{selectedChat?.chatData?.selectedUserName ?? 'User Name'}
 				</h2>
 				<Close

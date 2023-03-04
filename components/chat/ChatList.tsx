@@ -91,7 +91,7 @@ const ChatList = () => {
 						<img
 							src={image}
 							alt={`${user?.name} picture`}
-							className='h-6 w-6 rounded-full'
+							className='h-6 w-6 rounded-full object-cover'
 						/>
 					</div>
 					<span className='max-w-[120px] truncate'>{user?.name || 'User'}</span>
