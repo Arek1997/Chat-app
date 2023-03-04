@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const ChatContext = createContext<ContextInterface | null>(null);
 
