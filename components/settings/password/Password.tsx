@@ -61,7 +61,7 @@ const Password = ({ setResponse }: Props) => {
 					<input
 						type={value}
 						id='change-password'
-						className='w-full rounded-md px-4 py-2 text-slate-800 outline-indigo-500 sm:max-w-[200px]'
+						className='w-full rounded-md px-4 py-2 text-slate-800 outline-indigo-500 placeholder:text-sm sm:max-w-[200px]'
 						placeholder='Change Password'
 						{...register('password', {
 							required: 'Password is required',

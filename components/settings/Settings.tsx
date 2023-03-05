@@ -28,7 +28,7 @@ const Settings = () => {
 
 	return (
 		<Section>
-			<div className='container relative flex h-full flex-col p-4'>
+			<div className='relative flex h-full flex-col p-4'>
 				{processing && <LoadingSpinner />}
 				<div className='relative'>
 					<h2 className='text-center text-2xl font-semibold'>Settings</h2>

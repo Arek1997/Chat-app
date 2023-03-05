@@ -54,7 +54,7 @@ const Email = ({ setResponse }: Props) => {
 				<input
 					type='email'
 					id='change-email'
-					className='mr-5 grow rounded-md px-4 py-2 text-slate-800 outline-indigo-500 sm:max-w-[200px]'
+					className='mr-5 w-full rounded-md px-4 py-2 text-slate-800 outline-indigo-500 placeholder:text-sm sm:max-w-[200px]'
 					placeholder='Change Email'
 					{...register('email', {
 						required: 'Email is required',
