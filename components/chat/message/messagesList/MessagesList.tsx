@@ -46,7 +46,7 @@ const MessagesList = () => {
 			{messages?.length ? (
 				<ul className='flex flex-col gap-y-4'>
 					{messages?.map((msg) => {
-						const isOwner = msg.senderData.id === data?.user.uid ? true : false;
+						const isOwner = msg.senderData.id === data?.user.uid;
 						return (
 							<Message
 								key={msg.id}
