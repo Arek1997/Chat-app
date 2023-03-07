@@ -1,37 +1,67 @@
 import Button from '@/components/UI/button/Button';
 import { useSelectChat } from '@/context/ChatContext';
-import { updateCollectionData } from '@/helpers';
+import { storage } from '@/firebase.config';
+import {
+	updateCollectionData,
+	availableImageFormats,
+	checkFormat,
+} from '@/helpers';
 import { arrayUnion, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useSession } from 'next-auth/react';
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+interface Input {
+	message: string;
+	file: FileList;
+}
 
 const SendMessage = () => {
 	const { data } = useSession();
 	const selectedChat = useSelectChat();
-	const messageRef = useRef<HTMLTextAreaElement>(null);
+	const [image, setImage] = useState<File>();
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		getValues,
+		formState: { isSubmitSuccessful },
+	} = useForm<Input>({
+		mode: 'onTouched',
+		defaultValues: {
+			message: '',
+			file: undefined,
+		},
+	});
 
 	const updateCollection = async (id: string) => {
+		const message = getValues('message').trim();
+
 		await updateCollectionData(
 			process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_USER_CHATS!,
 			id,
 			{
-				[`activeChats.${selectedChat?.chatData?.chatId}.lastMessage`]:
-					messageRef.current?.value,
+				[`activeChats.${selectedChat?.chatData?.chatId}.lastMessage`]: message
+					? message
+					: image
+					? 'image'
+					: '',
 				[`activeChats.${selectedChat?.chatData?.chatId}.date`]:
 					serverTimestamp(),
 			}
 		);
 	};
 
-	const sendMessageHandler = async (e: React.FormEvent) => {
-		e.preventDefault();
-
-		if (messageRef.current?.value.trim().length === 0) {
+	const sendMessageHandler: SubmitHandler<Input> = async ({ message }) => {
+		if (!message.trim() && !image) {
 			return alert('Write some message.');
 		}
 
 		const dataMessage = {
-			message: messageRef.current?.value,
+			message: message.trim(),
+			image: '',
 			id: crypto.randomUUID(),
 			date: Timestamp.now(),
 			senderData: {
@@ -43,6 +73,16 @@ const SendMessage = () => {
 		};
 
 		try {
+			if (image) {
+				const storageRef = ref(
+					storage,
+					`messageImage/${data?.user.uid}/${image.name}`
+				);
+				await uploadBytes(storageRef, image);
+				const imageURL = await getDownloadURL(storageRef);
+				dataMessage.image = imageURL;
+			}
+
 			await updateCollectionData(
 				process.env.NEXT_PUBLIC_FIREBASE_COLLECTION_CHATS!,
 				selectedChat?.chatData?.chatId!,
@@ -54,21 +94,31 @@ const SendMessage = () => {
 			await updateCollection(selectedChat?.chatData?.selectedUserId!);
 
 			await updateCollection(data?.user.uid!);
-
-			messageRef.current!.value = '';
 		} catch (err) {
 			console.log(err);
 			alert('Some issue occurred, try later.');
 		}
 	};
 
+	useEffect(() => {
+		setImage(undefined);
+		reset({
+			message: '',
+			file: undefined,
+		});
+	}, [isSubmitSuccessful]);
+
 	return (
 		<div className='p-4'>
-			<form className='flex items-center' onSubmit={sendMessageHandler}>
+			{image && <img src={URL.createObjectURL(image)} alt='Selected image' />}
+			<form
+				className='flex items-center'
+				onSubmit={handleSubmit(sendMessageHandler)}
+			>
 				<div className='grow'>
 					<label htmlFor='message'></label>
 					<textarea
-						ref={messageRef}
+						{...register('message')}
 						onFocus={(e) => {
 							e.target.animate(
 								[{ minHeight: '60px' }, { minHeight: '100px' }],
@@ -101,7 +151,7 @@ const SendMessage = () => {
 				<div className='mx-4'>
 					<label
 						htmlFor='files'
-						className='hidden cursor-pointer transition-opacity hover:opacity-80'
+						className='cursor-pointer transition-opacity hover:opacity-80'
 						aria-label='Add file'
 						title='Add file'
 						aria-haspopup
@@ -114,10 +164,27 @@ const SendMessage = () => {
 					</label>
 					<input
 						type='file'
-						name='files'
+						accept={availableImageFormats
+							.map((format) => `image/${format}`)
+							.join(', ')}
 						id='files'
 						className='hidden'
 						aria-hidden
+						{...register('file', {
+							onChange: (e) => {
+								setImage(undefined);
+								const file = e.target.files?.[0] as File;
+								if (file) {
+									checkFormat(file, 'image', availableImageFormats)
+										? setImage(file)
+										: alert(
+												`Only images with ${availableImageFormats.join(
+													', '
+												)} format are available.`
+										  );
+								}
+							},
+						})}
 					/>
 				</div>
 
