@@ -50,5 +50,5 @@ App includes:
 ## Todo 📝
 
 - Create group chats
-- Image sending
+- ~~Image sending~~
 - ~~Profile edit~~
