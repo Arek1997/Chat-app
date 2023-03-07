@@ -1,11 +1,8 @@
 import Button from '@/components/UI/button/Button';
 import { useSelectChat } from '@/context/ChatContext';
 import { storage } from '@/firebase.config';
-import {
-	updateCollectionData,
-	availableImageFormats,
-	checkFormat,
-} from '@/helpers';
+import { updateCollectionData, checkFormat } from '@/helpers';
+import { AVAILABLE_IMAGE_FORMATS } from '@/helpers/variables';
 import { arrayUnion, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useSession } from 'next-auth/react';
@@ -164,9 +161,9 @@ const SendMessage = () => {
 					</label>
 					<input
 						type='file'
-						accept={availableImageFormats
-							.map((format) => `image/${format}`)
-							.join(', ')}
+						accept={AVAILABLE_IMAGE_FORMATS.map(
+							(format) => `image/${format}`
+						).join(', ')}
 						id='files'
 						className='hidden'
 						aria-hidden
@@ -175,10 +172,10 @@ const SendMessage = () => {
 								setImage(undefined);
 								const file = e.target.files?.[0] as File;
 								if (file) {
-									checkFormat(file, 'image', availableImageFormats)
+									checkFormat(file, 'image', AVAILABLE_IMAGE_FORMATS)
 										? setImage(file)
 										: alert(
-												`Only images with ${availableImageFormats.join(
+												`Only images with ${AVAILABLE_IMAGE_FORMATS.join(
 													', '
 												)} format are available.`
 										  );

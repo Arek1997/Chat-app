@@ -1,16 +1,15 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
-import {
-	availableImageFormats,
-	handleDataChange,
-	checkIfFileIsAnImage,
-	MAX_IMAGE_SIZE_IN_MB,
-} from '@/helpers';
+import { handleDataChange, checkIfFileIsAnImage } from '@/helpers';
 import { Response } from '@/interface';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useProcessing } from '@/context/ProcessingContext';
+import {
+	AVAILABLE_IMAGE_FORMATS,
+	MAX_IMAGE_SIZE_IN_MB,
+} from '@/helpers/variables';
 
 interface Props {
 	setResponse: (data: Response) => void;
@@ -94,9 +93,9 @@ const Image = ({ setResponse }: Props) => {
 
 				<input
 					type='file'
-					accept={availableImageFormats
-						.map((format) => `image/${format}`)
-						.join(', ')}
+					accept={AVAILABLE_IMAGE_FORMATS.map(
+						(format) => `image/${format}`
+					).join(', ')}
 					id='change-image'
 					className='hidden'
 					aria-hidden

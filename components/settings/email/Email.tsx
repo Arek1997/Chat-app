@@ -1,7 +1,8 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
 import { useProcessing } from '@/context/ProcessingContext';
-import { EMAIL_REG_EXP, handleDataChange } from '@/helpers';
+import { handleDataChange } from '@/helpers';
+import { EMAIL_REG_EXP } from '@/helpers/variables';
 import { Response } from '@/interface';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';

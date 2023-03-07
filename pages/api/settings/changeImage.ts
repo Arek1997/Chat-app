@@ -4,13 +4,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { ref, getDownloadURL, uploadString } from 'firebase/storage';
 import {
 	getDataFromCollection,
-	MAX_IMAGE_SIZE_IN_MB,
 	setDataToCollection,
 	updateCollectionData,
 	updateUser,
 } from '@/helpers';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { MAX_IMAGE_SIZE_IN_MB } from '@/helpers/variables';
 
 export const config = {
 	api: {

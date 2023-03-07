@@ -1,9 +1,9 @@
+import { fetchData } from '@/helpers';
 import {
 	EMAIL_REG_EXP,
-	fetchData,
 	NAME_REG_EXP,
 	PASSWORD_REG_EXP,
-} from '@/helpers';
+} from '@/helpers/variables';
 import useResponseMessage from '@/hooks/useResponseMessage';
 import useToggle from '@/hooks/useToggle';
 import { signIn } from 'next-auth/react';

@@ -16,6 +16,12 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 import { signOut as NextsignOut } from 'next-auth/react';
+import {
+	AVAILABLE_IMAGE_FORMATS,
+	EMAIL_REG_EXP,
+	NAME_REG_EXP,
+	PASSWORD_REG_EXP,
+} from './variables';
 
 export const fetchData = async (url: string, options?: object) => {
 	const res = await fetch(url, options);
@@ -23,20 +29,16 @@ export const fetchData = async (url: string, options?: object) => {
 	return { res, data };
 };
 
-export const NAME_REG_EXP = /[A-Za-z]{3}/;
 export const validName = (name: string) => {
 	const isValid = new RegExp(NAME_REG_EXP).test(name);
 	return isValid;
 };
 
-export const EMAIL_REG_EXP = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 export const validEmail = (email: string) => {
 	const isValid = new RegExp(EMAIL_REG_EXP).test(email);
 	return isValid;
 };
 
-export const PASSWORD_REG_EXP =
-	/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/gm;
 export const validPassword = (password: string) => {
 	const isValid = new RegExp(PASSWORD_REG_EXP).test(password);
 	return isValid;
@@ -152,16 +154,15 @@ export const updateCollectionData = async (
 	await updateDoc(doc(db, collectionName, id), data);
 };
 
-export const availableImageFormats = ['jpg', 'jpeg', 'png', 'webp'];
 export const checkIfFileIsAnImage = (
 	file: File,
 	callback: (arg: string) => void
 ) => {
-	if (checkFormat(file, 'image', availableImageFormats)) {
+	if (checkFormat(file, 'image', AVAILABLE_IMAGE_FORMATS)) {
 		callback(file.name);
 	} else {
 		alert(
-			`Only images with ${availableImageFormats.join(
+			`Only images with ${AVAILABLE_IMAGE_FORMATS.join(
 				', '
 			)} format are available.`
 		);
@@ -217,5 +218,3 @@ export const handleDataChange = async <T>(
 		onError(err);
 	}
 };
-
-export const MAX_IMAGE_SIZE_IN_MB = 1;
