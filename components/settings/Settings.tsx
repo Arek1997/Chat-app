@@ -45,7 +45,7 @@ const Settings = () => {
 					<Password setResponse={setResponse} />
 					<Image setResponse={setResponse} />
 
-					<p className='mt-4 underline'>
+					<p className='my-4 underline'>
 						* After success data change, you will be logged out.
 					</p>
 				</div>
