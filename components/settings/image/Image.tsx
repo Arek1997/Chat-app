@@ -22,7 +22,7 @@ interface Input {
 
 const Image = ({ setResponse }: Props) => {
 	const [imageName, setImageName] = useState('');
-	const [imagePath, setimagePath] = useState<string>();
+	const [imagePath, setimagePath] = useState('');
 	const [parent] = useAutoAnimate();
 	const { setProcessing } = useProcessing();
 
@@ -30,7 +30,6 @@ const Image = ({ setResponse }: Props) => {
 		register,
 		handleSubmit,
 		reset,
-		getValues,
 		formState: { errors, isSubmitSuccessful },
 	} = useForm<Input>({
 		mode: 'onTouched',
@@ -69,7 +68,7 @@ const Image = ({ setResponse }: Props) => {
 
 	useEffect(() => {
 		setImageName('');
-		setimagePath(undefined);
+		setimagePath('');
 		reset({
 			file: undefined,
 		});
@@ -103,11 +102,12 @@ const Image = ({ setResponse }: Props) => {
 					aria-hidden
 					{...register('file', {
 						required: 'Choose some image',
-						onChange: () => {
+						onChange: (e) => {
 							setImageName('');
-							setimagePath(undefined);
+							setimagePath('');
 
-							const file = getValues('file')[0] as File;
+							const file = e.target.files[0] as File;
+
 							if (file) {
 								checkIfFileIsAnImage(file, setImageName);
 								setimagePath(URL.createObjectURL(file));
