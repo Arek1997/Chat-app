@@ -6,7 +6,8 @@ import Message from '../Message';
 
 interface MessageINterface {
 	id: string;
-	message: string;
+	message?: string;
+	image?: string;
 	senderData: {
 		email: string;
 		id: string;
@@ -26,7 +27,11 @@ const MessagesList = () => {
 	const callBack = (data: any | Function) => setMessages(data.messages);
 
 	useEffect(() => {
-		scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
+		const timeout = setTimeout(() => {
+			scrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
+		}, 200);
+
+		return () => clearTimeout(timeout);
 	}, [messages]);
 
 	useEffect(() => {
@@ -50,9 +55,11 @@ const MessagesList = () => {
 						return (
 							<Message
 								key={msg.id}
-								message={msg.message}
-								image={msg.senderData.image}
 								owner={isOwner}
+								message={msg.message}
+								image={msg.image}
+								userName={msg.senderData.name}
+								userImage={msg.senderData.image}
 							/>
 						);
 					})}
