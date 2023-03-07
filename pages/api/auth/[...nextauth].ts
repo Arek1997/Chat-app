@@ -5,7 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 export const authOptions: NextAuthOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 	session: {
-		maxAge: 24 * 60 * 60,
+		maxAge: 60 * 60,
 	},
 
 	// Configure one or more authentication providers
