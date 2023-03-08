@@ -10,12 +10,10 @@ const useToggle = <T,>({ values }: Props<T>) => {
 
 	const toggleHandler = () => {
 		numberRef.current++;
-		if (numberRef.current < values.length) {
-			setValue(values[numberRef.current]);
-		} else {
-			numberRef.current = 0;
-			setValue(values[numberRef.current]);
-		}
+
+		if (numberRef.current === values.length) numberRef.current = 0;
+
+		setValue(values[numberRef.current]);
 	};
 
 	return { value, toggleHandler };
