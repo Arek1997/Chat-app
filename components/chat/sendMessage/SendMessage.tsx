@@ -142,7 +142,7 @@ const SendMessage = () => {
 						id='message'
 						aria-placeholder='Write a message...'
 						placeholder='Write a message...'
-						className='textAreaMessage w-full resize-none rounded-lg bg-transparent px-4 py-2 outline-none transition-colors placeholder:text-slate-200/80 hover:bg-slate-200/20 focus:bg-slate-200/20'
+						className='hiddenScroll w-full resize-none rounded-lg bg-transparent px-4 py-2 outline-none transition-colors placeholder:text-slate-200/80 hover:bg-slate-200/20 focus:bg-slate-200/20'
 					/>
 				</div>
 				<div className='mx-4'>
