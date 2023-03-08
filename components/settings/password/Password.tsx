@@ -1,10 +1,12 @@
 import Button from '@/components/UI/button/Button';
 import ErrorMessage from '@/components/UI/errorMessage/ErrorMessage';
+import PasswordRequirements from '@/components/UI/passwordRequirements/PasswordRequirements';
 import { useProcessing } from '@/context/ProcessingContext';
-import { handleDataChange, PASSWORD_REG_EXP } from '@/helpers';
+import { handleDataChange } from '@/helpers';
+import { PASSWORD_REG_EXP } from '@/helpers/variables';
 import useToggle from '@/hooks/useToggle';
 import { Response } from '@/interface';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface Props {
@@ -16,6 +18,7 @@ interface Input {
 }
 
 const Password = ({ setResponse }: Props) => {
+	const [isTouched, setIsTouched] = useState(false);
 	const { setProcessing } = useProcessing();
 	const {
 		register,
@@ -65,12 +68,10 @@ const Password = ({ setResponse }: Props) => {
 						placeholder='Change Password'
 						{...register('password', {
 							required: 'Password is required',
-							pattern: {
-								message:
-									'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
-								value: PASSWORD_REG_EXP,
-							},
+							pattern: PASSWORD_REG_EXP,
 						})}
+						onFocus={() => setIsTouched(true)}
+						onBlur={() => setIsTouched(false)}
 					/>
 					{watchPassword && (
 						<span
@@ -92,6 +93,8 @@ const Password = ({ setResponse }: Props) => {
 			</form>
 
 			<ErrorMessage message={errors.password?.message} style='text-red-500' />
+
+			{isTouched && <PasswordRequirements password={watchPassword} />}
 		</div>
 	);
 };
