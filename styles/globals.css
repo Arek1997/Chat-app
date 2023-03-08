@@ -39,8 +39,13 @@
 	border-radius: 50px;
 }
 
-.textAreaMessage::-webkit-scrollbar {
+.hiddenScroll::-webkit-scrollbar {
 	display: none;
+}
+
+.hiddenScroll {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .message p {
