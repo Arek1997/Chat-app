@@ -8,9 +8,10 @@ import useResponseMessage from '@/hooks/useResponseMessage';
 import useToggle from '@/hooks/useToggle';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ErrorMessage from '../UI/errorMessage/ErrorMessage';
+import PasswordRequirements from '../UI/passwordRequirements/PasswordRequirements';
 
 interface Inputs {
 	name?: string;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
+	const [isTouched, setIsTouched] = useState(false);
 	const router = useRouter();
 	const {
 		register,
@@ -178,12 +180,10 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						className='w-full rounded-md px-4 py-2 outline-indigo-500'
 						{...register('password', {
 							required: 'Password is required',
-							pattern: {
-								message:
-									'Password have to contains at least 8 sign, at least one uppercase letter, at least one downcase letter, at least one number and at least one special sign',
-								value: PASSWORD_REG_EXP,
-							},
+							pattern: PASSWORD_REG_EXP,
 						})}
+						onFocus={() => setIsTouched(true)}
+						onBlur={() => setIsTouched(false)}
 					/>
 
 					{watchPassword && (
@@ -198,7 +198,15 @@ const Form = ({ title, isLogInRoute, setIsLoading }: Props) => {
 						</span>
 					)}
 				</div>
+
 				<ErrorMessage message={errors.password?.message} style='text-red-600' />
+
+				{isTouched && !isLogInRoute && (
+					<PasswordRequirements
+						password={watchPassword}
+						successColor='text-green-600'
+					/>
+				)}
 			</div>
 
 			<button className='ml-auto mt-4 block rounded-md bg-slate-200 px-4 py-2 outline-indigo-500 transition-colors duration-300 hover:bg-slate-50 focus:scale-95'>
