@@ -9,9 +9,11 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 interface Props {
 	password: string;
+	textColor?: string;
+	successColor?: string;
 }
 
-const PasswordRequirements = ({ password }: Props) => {
+const PasswordRequirements = ({ password, textColor, successColor }: Props) => {
 	const providedPassword = password.trim();
 
 	const [parent] = useAutoAnimate();
@@ -33,11 +35,11 @@ const PasswordRequirements = ({ password }: Props) => {
 	const isPasswordCorrect = validPassword(providedPassword);
 
 	return (
-		<div className='mt-4 text-sm'>
+		<div className={`mt-4 text-left text-sm ${textColor ? textColor : ''}`}>
 			{
 				<h3
 					className={`mb-2 font-semibold ${
-						isPasswordCorrect ? 'text-green-400' : ''
+						isPasswordCorrect ? successColor || 'text-green-400' : ''
 					}`}
 				>
 					{!isPasswordCorrect
